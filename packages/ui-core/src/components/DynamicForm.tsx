@@ -16,7 +16,7 @@ import {
   Form,
   FormControl,
   FormDescription,
-  FormField as UIFormField,
+  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -91,7 +91,7 @@ export type FieldOption = {
 };
 
 // Definition of a form field
-export type FormField = {
+export type DfFormField = {
   name: string;
   label: string;
   type: FieldType;
@@ -109,7 +109,7 @@ export type FormField = {
 // Props for the DynamicForm component
 export type DynamicFormProps = {
   title?: string;
-  fields: FormField[];
+  fields: DfFormField[];
   onSubmit: (data: any) => void;
   onCancel?: () => void;
   submitLabel?: string;
@@ -238,7 +238,7 @@ export function DynamicForm({
   }, [form, fields]);
 
   // Render different field types
-  const renderField = (field: FormField) => {
+  const renderField = (field: DfFormField) => {
     const fieldWidth =
       field.width === "half"
         ? "w-1/2"
@@ -247,7 +247,7 @@ export function DynamicForm({
           : "w-full";
 
     return (
-      <UIFormField
+      <FormField
         key={field.name}
         control={form.control}
         name={field.name}
@@ -279,7 +279,7 @@ export function DynamicForm({
   };
 
   // Render the appropriate control for each field type
-  const renderFieldControl = (field: FormField, formField: any) => {
+  const renderFieldControl = (field: DfFormField, formField: any) => {
     console.log("formField", formField);
     switch (field.type) {
       case "text":

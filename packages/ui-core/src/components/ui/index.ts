@@ -1,4 +1,3 @@
-// Re-export all shadcn/ui components
 export * from "./button";
 export * from "./input";
 export * from "./textarea";
@@ -12,13 +11,5 @@ export * from "./alert";
 export * from "./label";
 export * from "./separator";
 export * from "./accordion";
-export * from "./avatar";
 export * from "./checkbox";
 export * from "./dialog";
-export * from "./dropdown-menu";
-export * from "./hover-card";
-export * from "./progress";
-export * from "./slider";
-export * from "./tabs";
-export * from "./toast";
-export * from "./tooltip";
