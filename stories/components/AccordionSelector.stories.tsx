@@ -1,4 +1,3 @@
-// stories/AccordionSelector.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import { Database, Users, Settings } from "lucide-react";
 import AccordionSelector from "../../packages/ui-core/src/components/AccordionSelector";

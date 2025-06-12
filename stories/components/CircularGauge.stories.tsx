@@ -1,4 +1,3 @@
-// stories/CircularGauge.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import CircularGauge from "../../packages/ui-core/src/components/CircularGauge";
 
