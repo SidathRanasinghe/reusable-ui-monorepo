@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { DynamicForm } from "../../../packages/ui-core/src/components/forms/DynamicForm";
+import { DynamicForm } from "../../packages/ui-core/src/components/DynamicForm";
 
 const meta: Meta<typeof DynamicForm> = {
   title: "🔥 Showcase/DynamicForm",

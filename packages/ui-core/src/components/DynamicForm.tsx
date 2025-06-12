@@ -2,16 +2,16 @@ import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "./ui/select";
 import {
   Form,
   FormControl,
@@ -20,20 +20,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
+} from "./ui/form";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../components/ui/popover";
-import { cn } from "../../lib/utils";
+} from "./ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn } from "../lib/utils";
 import { Check, ChevronsUpDown, Info, Plus, X } from "lucide-react";
 import {
   Command,
@@ -42,11 +38,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../components/ui/command";
-import { Switch } from "../../components/ui/switch";
-import { Alert, AlertDescription } from "../../components/ui/alert";
+} from "./ui/command";
+import { Switch } from "./ui/switch";
+import { Alert, AlertDescription } from "./ui/alert";
 
-import RichTextEditor from "../RichTextEditor";
+import RichTextEditor from "./RichTextEditor";
 
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
