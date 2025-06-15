@@ -3,13 +3,13 @@ import{within as u,expect as s,userEvent as x}from"./index-Cf3xVBfy.js";import{j
     canvasElement
   }) => {
     const canvas = within(canvasElement);
-    const loginButton = canvas.getByRole("button", {
+    const loginButton = canvas.getByRole('button', {
       name: /Log in/i
     });
     await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
     await expect(loginButton).not.toBeInTheDocument();
-    const logoutButton = canvas.getByRole("button", {
+    const logoutButton = canvas.getByRole('button', {
       name: /Log out/i
     });
     await expect(logoutButton).toBeInTheDocument();
