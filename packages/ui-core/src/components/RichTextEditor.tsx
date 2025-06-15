@@ -11,7 +11,6 @@ export interface QuillEditorProps {
   placeholder?: string;
 }
 
-// Simple wrapper component that applies our custom styles
 const RichTextEditor: React.FC<QuillEditorProps> = ({
   value,
   onChange,

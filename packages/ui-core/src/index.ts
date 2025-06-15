@@ -7,7 +7,7 @@ export * from './components/ui';
 // CSS
 import './index.css';
 
-// components
+// Components
 export * from './components/AccordionSelector';
 export * from './components/CircularGauge';
 export * from './components/Dialog';

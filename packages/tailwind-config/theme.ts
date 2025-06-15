@@ -79,7 +79,7 @@ export const boxShadows = {
   'dark-50': '0 0 1px hsla(210, 8%, 13%, 1)',
 };
 
-// Also export as CommonJS for compatibility
+// export also as CommonJS for compatibility
 module.exports = {
   colors,
   screens,

@@ -7,7 +7,11 @@ function getAbsolutePath(value: string): any {
 }
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  // Reusable component stories
+  stories: [
+    '../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../packages/ui-core/src/**/*.stories.@(js|jsx|mjs|ts|tsx)', // If there is any story in the packages folder
+  ],
   addons: [
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-controls'),
@@ -32,20 +36,16 @@ const config: StorybookConfig = {
   viteFinal: async (config, { configType }) => {
     // Configure for GitHub Pages deployment
     if (configType === 'PRODUCTION') {
-      // Set the base path for GitHub Pages
       config.base = '/reusable-ui-monorepo/';
 
-      // Configure build settings for GitHub Pages
       config.build = {
         ...config.build,
         assetsDir: 'assets',
-        // Ensure assets are inlined or use relative paths
         assetsInlineLimit: 0,
         rollupOptions: {
           ...config.build?.rollupOptions,
           output: {
             ...config.build?.rollupOptions?.output,
-            // Use more predictable asset naming
             assetFileNames: (assetInfo) => {
               const info = assetInfo.name?.split('.') || [];
               const extType = info[info.length - 1] || '';
@@ -61,7 +61,6 @@ const config: StorybookConfig = {
             entryFileNames: 'assets/js/[name]-[hash].js',
           },
         },
-        // Ensure sourcemaps are disabled for production
         sourcemap: false,
       };
     }
@@ -79,6 +78,7 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
+        '@': join(__dirname, '../packages/ui-core/src'),
       },
     };
 
