@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { DynamicForm } from "../../packages/ui-core/src/components/DynamicForm";
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { DynamicForm } from '../../packages/ui-core/src/components/DynamicForm';
 
 const meta: Meta<typeof DynamicForm> = {
-  title: "🔥 Showcase/DynamicForm",
+  title: '🔥 Showcase/DynamicForm',
   component: DynamicForm,
   parameters: {
-    layout: "padded",
+    layout: 'padded',
     docs: {
       description: {
         component: `
@@ -25,7 +26,7 @@ This component demonstrates advanced React patterns and enterprise-level form ha
       },
     },
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -33,31 +34,31 @@ type Story = StoryObj<typeof meta>;
 
 export const ContactForm: Story = {
   args: {
-    title: "Contact Information Form",
+    title: 'Contact Information Form',
     fields: [
       {
-        name: "firstName",
-        label: "First Name",
-        type: "text",
-        placeholder: "Enter your first name",
+        name: 'firstName',
+        label: 'First Name',
+        type: 'text',
+        placeholder: 'Enter your first name',
         validation: { required: true, minLength: 2 },
-        width: "half",
+        width: 'half',
         isRequired: true,
       },
       {
-        name: "lastName",
-        label: "Last Name",
-        type: "text",
-        placeholder: "Enter your last name",
+        name: 'lastName',
+        label: 'Last Name',
+        type: 'text',
+        placeholder: 'Enter your last name',
         validation: { required: true },
-        width: "half",
+        width: 'half',
         isRequired: true,
       },
       {
-        name: "email",
-        label: "Email Address",
-        type: "text",
-        placeholder: "john@example.com",
+        name: 'email',
+        label: 'Email Address',
+        type: 'text',
+        placeholder: 'john@example.com',
         validation: {
           required: true,
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -65,88 +66,88 @@ export const ContactForm: Story = {
         isRequired: true,
       },
       {
-        name: "role",
-        label: "Role",
-        type: "select",
-        placeholder: "Select your role",
+        name: 'role',
+        label: 'Role',
+        type: 'select',
+        placeholder: 'Select your role',
         options: [
-          { label: "Frontend Developer", value: "frontend" },
-          { label: "Backend Developer", value: "backend" },
-          { label: "Full Stack Developer", value: "fullstack" },
-          { label: "DevOps Engineer", value: "devops" },
+          { label: 'Frontend Developer', value: 'frontend' },
+          { label: 'Backend Developer', value: 'backend' },
+          { label: 'Full Stack Developer', value: 'fullstack' },
+          { label: 'DevOps Engineer', value: 'devops' },
         ],
         isRequired: true,
       },
       {
-        name: "bio",
-        label: "Bio",
-        type: "textarea",
-        placeholder: "Tell us about yourself...",
-        description: "Brief description about your experience",
+        name: 'bio',
+        label: 'Bio',
+        type: 'textarea',
+        placeholder: 'Tell us about yourself...',
+        description: 'Brief description about your experience',
       },
     ],
     onSubmit: (data: any) => {
-      console.log("Form submitted:", data);
-      alert("Form submitted! Check console for data.");
+      console.log('Form submitted:', data);
+      alert('Form submitted! Check console for data.');
     },
-    submitLabel: "Submit Application",
-    cancelLabel: "Reset",
+    submitLabel: 'Submit Application',
+    cancelLabel: 'Reset',
   },
 };
 
 export const AdvancedForm: Story = {
   args: {
-    title: "Advanced Form Showcase",
+    title: 'Advanced Form Showcase',
     fields: [
       {
-        name: "language",
-        label: "Programming Language",
-        type: "select",
+        name: 'language',
+        label: 'Programming Language',
+        type: 'select',
         options: [
-          { label: "JavaScript", value: "JavaScript" },
-          { label: "Python", value: "Python" },
-          { label: "SQL", value: "SQL" },
+          { label: 'JavaScript', value: 'JavaScript' },
+          { label: 'Python', value: 'Python' },
+          { label: 'SQL', value: 'SQL' },
         ],
-        defaultValue: "JavaScript",
+        defaultValue: 'JavaScript',
       },
       {
-        name: "code",
-        label: "Code Snippet",
-        type: "code",
-        placeholder: "Enter your code here...",
-        description: "Code editor with syntax highlighting",
+        name: 'code',
+        label: 'Code Snippet',
+        type: 'code',
+        placeholder: 'Enter your code here...',
+        description: 'Code editor with syntax highlighting',
       },
       {
-        name: "description",
-        label: "Rich Text Description",
-        type: "richtext",
-        placeholder: "Write a detailed description...",
+        name: 'description',
+        label: 'Rich Text Description',
+        type: 'richtext',
+        placeholder: 'Write a detailed description...',
       },
       {
-        name: "tags",
-        label: "Skills Tags",
-        type: "tags",
-        description: "Search and select relevant skills",
+        name: 'tags',
+        label: 'Skills Tags',
+        type: 'tags',
+        description: 'Search and select relevant skills',
       },
       {
-        name: "themeColor",
-        label: "Brand Color",
-        type: "color",
-        defaultValue: "#2C42FF",
+        name: 'themeColor',
+        label: 'Brand Color',
+        type: 'color',
+        defaultValue: '#2C42FF',
       },
       {
-        name: "isPublic",
-        label: "Make Profile Public",
-        type: "switch",
+        name: 'isPublic',
+        label: 'Make Profile Public',
+        type: 'switch',
         defaultValue: false,
       },
       {
-        name: "assignedUsers",
-        label: "Team Members",
-        type: "user-select",
-        description: "Select team members for this project",
+        name: 'assignedUsers',
+        label: 'Team Members',
+        type: 'user-select',
+        description: 'Select team members for this project',
       },
     ],
-    onSubmit: (data: any) => console.log("Advanced form:", data),
+    onSubmit: (data: any) => console.log('Advanced form:', data),
   },
 };
