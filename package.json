@@ -19,7 +19,7 @@
     "type-check:packages": "npm run type-check --workspace=packages/ui-core",
     "quality": "npm run type-check && npm run lint && npm run format:check",
     "quality:fix": "npm run type-check && npm run lint:fix && npm run format",
-    "deploy-storybook": "npm run build-storybook && touch storybook-static/.nojekyll && npx gh-pages -d storybook-static",
+    "deploy-storybook": "npm run build-storybook && echo 'reusable-ui-monorepo' > storybook-static/CNAME && touch storybook-static/.nojekyll && npx gh-pages -d storybook-static --dotfiles",
     "clean": "npm run clean --workspace=packages/ui-core && rm -rf storybook-static",
     "clean:all": "npm run clean && rm -rf node_modules packages/*/node_modules",
     "postinstall": "npx update-browserslist-db@latest --no-update-notifier"

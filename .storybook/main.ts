@@ -32,22 +32,37 @@ const config: StorybookConfig = {
   viteFinal: async (config, { configType }) => {
     // Configure for GitHub Pages deployment
     if (configType === 'PRODUCTION') {
+      // Set the base path for GitHub Pages
       config.base = '/reusable-ui-monorepo/';
 
-      // Ensure assets are generated with correct paths
+      // Configure build settings for GitHub Pages
       config.build = {
         ...config.build,
         assetsDir: 'assets',
+        // Ensure assets are inlined or use relative paths
+        assetsInlineLimit: 0,
         rollupOptions: {
           ...config.build?.rollupOptions,
           output: {
             ...config.build?.rollupOptions?.output,
-            // Ensure consistent asset naming
-            assetFileNames: 'assets/[name]-[hash][extname]',
-            chunkFileNames: 'assets/[name]-[hash].js',
-            entryFileNames: 'assets/[name]-[hash].js',
+            // Use more predictable asset naming
+            assetFileNames: (assetInfo) => {
+              const info = assetInfo.name?.split('.') || [];
+              const extType = info[info.length - 1] || '';
+              if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
+                return `assets/images/[name]-[hash][extname]`;
+              }
+              if (/\.(css)$/i.test(assetInfo.name || '')) {
+                return `assets/css/[name]-[hash][extname]`;
+              }
+              return `assets/[name]-[hash][extname]`;
+            },
+            chunkFileNames: 'assets/js/[name]-[hash].js',
+            entryFileNames: 'assets/js/[name]-[hash].js',
           },
         },
+        // Ensure sourcemaps are disabled for production
+        sourcemap: false,
       };
     }
 
@@ -56,6 +71,14 @@ const config: StorybookConfig = {
       ...config.css,
       postcss: {
         plugins: [require('tailwindcss'), require('autoprefixer')],
+      },
+    };
+
+    // Resolve configuration for monorepo
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
       },
     };
 
