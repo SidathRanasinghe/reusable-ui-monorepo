@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+packages/*/node_modules/
+
+# Build outputs
+dist/
+build/
+packages/*/dist/
+packages/*/build/
+storybook-static/
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Environment files
+.env*
+
+# Lock files (don't format these)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+*.min.js
+*.min.css
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db

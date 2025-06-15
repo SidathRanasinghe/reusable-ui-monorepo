@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface CircularGaugeProps {
   score: number;
@@ -22,11 +22,11 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({
   size = 200,
   thickness = 4,
   tickCount = 40,
-  containerClassName = "",
-  valueClassName = "",
-  labelClassName = "",
-  tickClassName = "",
-  filledTickClassName = "",
+  containerClassName = '',
+  valueClassName = '',
+  labelClassName = '',
+  tickClassName = '',
+  filledTickClassName = '',
   isRotate = false,
 }) => {
   const center = size / 2;
@@ -62,11 +62,11 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({
       <svg
         width={size}
         height={size}
-        style={{ transform: isRotate ? "RotateY(180deg)" : "" }}
+        style={{ transform: isRotate ? 'RotateY(180deg)' : '' }}
       >
         {renderTicks()}
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className='absolute inset-0 flex flex-col items-center justify-center'>
         <span className={`text-4xl font-bold ${valueClassName}`}>
           {score}
           {unit}
