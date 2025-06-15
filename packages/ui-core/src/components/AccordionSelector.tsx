@@ -1,12 +1,13 @@
-import React, { ReactNode, useState } from "react";
-import { cn } from "../lib/utils";
+import React, { ReactNode, useState } from 'react';
+
+import { cn } from '../lib/utils';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../components/ui/accordion";
-import { Checkbox } from "../components/ui/checkbox";
+} from '../components/ui/accordion';
+import { Checkbox } from '../components/ui/checkbox';
 
 interface AccordionSelectorProps {
   options: {
@@ -31,11 +32,11 @@ interface AccordionSelectorProps {
 const AccordionSelector: React.FC<AccordionSelectorProps> = ({
   options,
   onSelect,
-  mainWrapperClassName = "",
-  className = "",
-  accordionItemClassName = "",
-  accordionTriggerClassName = "",
-  accordionContentClassName = "",
+  mainWrapperClassName = '',
+  className = '',
+  accordionItemClassName = '',
+  accordionTriggerClassName = '',
+  accordionContentClassName = '',
 }) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>(
@@ -56,21 +57,21 @@ const AccordionSelector: React.FC<AccordionSelectorProps> = ({
       return group.content;
     }
     return (
-      <div className="flex flex-col gap-y-1">
+      <div className='flex flex-col gap-y-1'>
         {group.content.map((item: { id: string; label: string }) => (
           <div
             key={item.id}
-            className="flex items-center gap-x-2 rounded px-2 py-1 hover:bg-cadet-gray-0.5"
+            className='flex items-center gap-x-2 rounded px-2 py-1 hover:bg-cadet-gray-0.5'
           >
             <Checkbox
               id={`${group.id}_${item.id}`}
               checked={!!selectedItems[`${group.id}_${item.id}`]}
               onCheckedChange={() => handleToggleItem(item.id, group.id)}
-              className="size-3 rounded border-cadet-gray-3"
+              className='size-3 rounded border-cadet-gray-3'
             />
             <label
               htmlFor={`${group.id}_${item.id}`}
-              className="cursor-pointer font-hankenGrotesk text-caption-xxs text-cadet-gray-8"
+              className='cursor-pointer font-hankenGrotesk text-caption-xxs text-cadet-gray-8'
             >
               {item.label}
             </label>
@@ -83,37 +84,37 @@ const AccordionSelector: React.FC<AccordionSelectorProps> = ({
   return (
     <div
       className={cn(
-        "w-full rounded border border-cadet-gray-1",
+        'w-full rounded border border-cadet-gray-1',
         mainWrapperClassName
       )}
     >
       <Accordion
-        type="multiple"
+        type='multiple'
         value={expandedItems}
         onValueChange={setExpandedItems}
-        className={cn("w-full bg-cadet-gray-0 rounded", className)}
+        className={cn('w-full rounded bg-cadet-gray-0', className)}
       >
-        {options.map((group) => (
+        {options.map(group => (
           <AccordionItem
             key={group.id}
             value={group.id}
             className={cn(
-              "border-b border-cadet-gray-1 last:border-b-0",
+              'border-b border-cadet-gray-1 last:border-b-0',
               accordionItemClassName
             )}
           >
             <AccordionTrigger
-              className={cn("w-full px-3 py-1.5", accordionTriggerClassName)}
+              className={cn('w-full px-3 py-1.5', accordionTriggerClassName)}
             >
-              <div className="flex w-full items-center justify-start gap-x-2">
+              <div className='flex w-full items-center justify-start gap-x-2'>
                 {group.lableIcon && group.lableIcon}
-                <p className="text-left font-hankenGrotesk text-caption-xxs text-cadet-gray-8">
+                <p className='text-left font-hankenGrotesk text-caption-xxs text-cadet-gray-8'>
                   {group.label}
                 </p>
               </div>
             </AccordionTrigger>
             <AccordionContent
-              className={cn("px-3 py-1", accordionContentClassName)}
+              className={cn('px-3 py-1', accordionContentClassName)}
             >
               {renderContent(group)}
             </AccordionContent>
