@@ -4,8 +4,13 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   darkMode: ["class"],
   content: [
-    "../../apps/**/*.{js,ts,jsx,tsx,mdx}", // Include all apps
-    "../../packages/**/*.{js,ts,jsx,tsx,mdx}", // Include all packages
+    // relative to where this config is used
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./packages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./stories/**/*.{js,ts,jsx,tsx,mdx}",
+    // more specific paths for better detection
+    "../../packages/ui-core/src/**/*.{js,ts,jsx,tsx}",
+    "../../stories/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -134,4 +139,7 @@ const config: Config = {
     },
   ],
 };
+
+// Export both as default and named export for compatibility
 export default config;
+module.exports = config;

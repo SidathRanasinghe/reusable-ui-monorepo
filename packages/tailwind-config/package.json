@@ -1,0 +1,11 @@
+{
+  "name": "@reusable/tailwind-config",
+  "version": "0.0.1",
+  "main": "tailwind.config.ts",
+  "types": "tailwind.config.ts",
+  "files": [
+    "tailwind.config.ts",
+    "theme.ts",
+    "postcss.config.js"
+  ]
+}
