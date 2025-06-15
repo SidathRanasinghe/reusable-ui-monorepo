@@ -1,7 +1,5 @@
 import type { Preview } from "@storybook/react";
-// import type { Preview } from '@storybook/react-vite'
 import "../packages/ui-core/src/index.css";
-import "../packages/tailwind-config/postcss.config.js";
 
 const preview: Preview = {
   parameters: {
@@ -30,17 +28,44 @@ const preview: Preview = {
     },
   },
   globalTypes: {
-    theme: {
-      description: "Global theme for components",
+    darkMode: {
       defaultValue: "light",
       toolbar: {
         title: "Theme",
         icon: "circlehollow",
-        items: ["light", "dark"],
-        dynamicTitle: true,
+        items: [
+          { value: "light", icon: "sun", title: "Light" },
+          { value: "dark", icon: "moon", title: "Dark" },
+        ],
       },
     },
+    // theme: {
+    //   description: "Global theme for components",
+    //   defaultValue: "light",
+    //   toolbar: {
+    //     title: "Theme",
+    //     icon: "circlehollow",
+    //     items: ["light", "dark"],
+    //     dynamicTitle: true,
+    //   },
+    // },
   },
+  decorators: [
+    (Story, context) => {
+      const { darkMode } = context.globals;
+
+      // Apply dark mode class to body
+      if (typeof window !== "undefined") {
+        if (darkMode === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }
+
+      return Story();
+    },
+  ],
 };
 
 export default preview;

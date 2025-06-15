@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npm run clean && npm run build:js && npm run build:css",
     "build:js": "tsup",
-    "build:css": "tailwindcss -i src/index.css -o dist/index.css --minify",
+    "build:css": "tailwindcss -i src/index.css -o dist/index.css --minify --config ./tailwind.config.ts",
     "dev": "npm run build:js -- --watch",
     "clean": "rm -rf dist"
   },
