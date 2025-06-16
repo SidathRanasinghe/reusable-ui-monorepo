@@ -116,6 +116,7 @@ export default tseslint.config(
           allowExportNames: [
             "buttonVariants", // packages/ui-core/src/components/ui/button.tsx
             "useFormField", // packages/ui-core/src/components/ui/form.tsx
+            "badgeVariants", // packages/ui-core/src/components/ui/badge.tsx
           ], // Allow specific named exports
         },
       ],
