@@ -1,32 +1,34 @@
-import { join, dirname } from 'path';
+import { join, dirname } from "path";
 
-import type { StorybookConfig } from '@storybook/react-vite';
+import type { StorybookConfig } from "@storybook/react-vite";
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
 
 function getAbsolutePath(value: string): any {
-  return dirname(require.resolve(join(value, 'package.json')));
+  return dirname(require.resolve(join(value, "package.json")));
 }
 
 const config: StorybookConfig = {
   // Reusable component stories
   stories: [
-    '../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '../packages/ui-core/src/**/*.stories.@(js|jsx|mjs|ts|tsx)', // If there is any story in the packages folder
+    "../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../packages/ui-core/src/**/*.stories.@(js|jsx|mjs|ts|tsx)", // If there is any story in the packages folder
   ],
   addons: [
-    getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@storybook/addon-controls'),
-    getAbsolutePath('@storybook/addon-docs'),
-    getAbsolutePath('@storybook/addon-viewport'),
-    getAbsolutePath('@storybook/addon-a11y'),
-    getAbsolutePath('@storybook/addon-links'),
+    getAbsolutePath("@storybook/addon-essentials"),
+    getAbsolutePath("@storybook/addon-controls"),
+    getAbsolutePath("@storybook/addon-docs"),
+    getAbsolutePath("@storybook/addon-viewport"),
+    getAbsolutePath("@storybook/addon-a11y"),
+    getAbsolutePath("@storybook/addon-links"),
   ],
   framework: {
-    name: getAbsolutePath('@storybook/react-vite'),
+    name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
   typescript: {
     check: false,
-    reactDocgen: 'react-docgen-typescript',
+    reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: prop =>
@@ -35,30 +37,32 @@ const config: StorybookConfig = {
   },
   viteFinal: async (config, { configType }) => {
     // Configure for GitHub Pages deployment
-    if (configType === 'PRODUCTION') {
-      config.base = '/reusable-ui-monorepo/';
+    if (configType === "PRODUCTION") {
+      config.base = "/reusable-ui-monorepo/";
 
       config.build = {
         ...config.build,
-        assetsDir: 'assets',
+        assetsDir: "assets",
         assetsInlineLimit: 0,
         rollupOptions: {
           ...config.build?.rollupOptions,
           output: {
             ...config.build?.rollupOptions?.output,
-            assetFileNames: (assetInfo) => {
-              const info = assetInfo.name?.split('.') || [];
-              const extType = info[info.length - 1] || '';
-              if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
+            assetFileNames: assetInfo => {
+              if (
+                /\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(
+                  assetInfo.name || ""
+                )
+              ) {
                 return `assets/images/[name]-[hash][extname]`;
               }
-              if (/\.(css)$/i.test(assetInfo.name || '')) {
+              if (/\.(css)$/i.test(assetInfo.name || "")) {
                 return `assets/css/[name]-[hash][extname]`;
               }
               return `assets/[name]-[hash][extname]`;
             },
-            chunkFileNames: 'assets/js/[name]-[hash].js',
-            entryFileNames: 'assets/js/[name]-[hash].js',
+            chunkFileNames: "assets/js/[name]-[hash].js",
+            entryFileNames: "assets/js/[name]-[hash].js",
           },
         },
         sourcemap: false,
@@ -67,9 +71,8 @@ const config: StorybookConfig = {
 
     // CSS processing
     config.css = {
-      ...config.css,
       postcss: {
-        plugins: [require('tailwindcss'), require('autoprefixer')],
+        plugins: [tailwindcss, autoprefixer],
       },
     };
 
@@ -78,7 +81,7 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
-        '@': join(__dirname, '../packages/ui-core/src'),
+        "@": join(__dirname, "../packages/ui-core/src"),
       },
     };
 

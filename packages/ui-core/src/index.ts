@@ -1,15 +1,15 @@
 // Utility functions
-export * from './lib/utils';
+export * from "./lib/utils";
 
 // Base shadcn/ui components
-export * from './components/ui';
+export * from "./components/ui";
 
 // CSS
-import './index.css';
+import "./index.css";
 
 // Components
-export * from './components/AccordionSelector';
-export * from './components/CircularGauge';
-export * from './components/Dialog';
-export * from './components/DynamicForm';
-export * from './components/RichTextEditor';
+export * from "./components/AccordionSelector";
+export * from "./components/CircularGauge";
+export * from "./components/Dialog";
+export * from "./components/DynamicForm";
+export * from "./components/RichTextEditor";

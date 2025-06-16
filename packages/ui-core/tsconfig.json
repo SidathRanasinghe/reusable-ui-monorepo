@@ -4,9 +4,6 @@
     "outDir": "dist",
     "module": "esnext",
     "moduleResolution": "bundler"
-    // "paths": {
-    //   "@/*": ["./packages/ui-core/src/*"]
-    // }
   },
   "include": ["src"]
 }
