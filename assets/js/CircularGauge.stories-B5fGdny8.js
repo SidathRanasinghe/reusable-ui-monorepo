@@ -1,19 +1,19 @@
 import{j as e}from"./jsx-runtime-Cf8x2fCZ.js";import"./index-yBjzXJbu.js";const a=({score:o,unit:N,label:y,size:s=200,thickness:c=4,tickCount:u=40,containerClassName:h="",valueClassName:x="",labelClassName:b="",tickClassName:v="",filledTickClassName:j="",isRotate:V=!1})=>{const r=s/2,t=r-c,q=Math.round(o/100*u),T=()=>Array.from({length:u}).map((G,m)=>{const l=m/u*Math.PI*2-Math.PI/2,_=r+t*Math.cos(l),M=r+t*Math.sin(l),P=r+(t-c*2)*Math.cos(l),z=r+(t-c*2)*Math.sin(l);return e.jsx("line",{x1:_,y1:M,x2:P,y2:z,className:m<q?j:v},m)});return e.jsxs("div",{className:`relative ${h}`,style:{width:s,height:s},children:[e.jsx("svg",{width:s,height:s,style:{transform:V?"RotateY(180deg)":""},children:T()}),e.jsxs("div",{className:"absolute inset-0 flex flex-col items-center justify-center",children:[e.jsxs("span",{className:`text-4xl font-bold ${x}`,children:[o,N]}),e.jsx("span",{className:`text-sm ${b}`,children:y})]})]})};try{a.displayName="CircularGauge",a.__docgenInfo={description:"",displayName:"CircularGauge",props:{score:{defaultValue:null,description:"",name:"score",required:!0,type:{name:"number"}},unit:{defaultValue:null,description:"",name:"unit",required:!1,type:{name:"string"}},label:{defaultValue:null,description:"",name:"label",required:!0,type:{name:"string"}},size:{defaultValue:{value:"200"},description:"",name:"size",required:!1,type:{name:"number"}},tickCount:{defaultValue:{value:"40"},description:"",name:"tickCount",required:!1,type:{name:"number"}},thickness:{defaultValue:{value:"4"},description:"",name:"thickness",required:!1,type:{name:"number"}},containerClassName:{defaultValue:{value:""},description:"",name:"containerClassName",required:!1,type:{name:"string"}},valueClassName:{defaultValue:{value:""},description:"",name:"valueClassName",required:!1,type:{name:"string"}},labelClassName:{defaultValue:{value:""},description:"",name:"labelClassName",required:!1,type:{name:"string"}},tickClassName:{defaultValue:{value:""},description:"",name:"tickClassName",required:!1,type:{name:"string"}},filledTickClassName:{defaultValue:{value:""},description:"",name:"filledTickClassName",required:!1,type:{name:"string"}},isRotate:{defaultValue:{value:"false"},description:"",name:"isRotate",required:!1,type:{name:"boolean"}}}}}catch{}const R={title:"📊 Data Visualization/CircularGauge",component:a,tags:["autodocs"]},i={args:{score:87,unit:"%",label:"Performance Score",size:200,tickCount:40,containerClassName:"mx-auto",valueClassName:"text-primary-400",filledTickClassName:"stroke-primary-400 stroke-2",tickClassName:"stroke-gray-200 stroke-1"}},n={render:()=>e.jsxs("div",{className:"grid grid-cols-3 gap-4 p-4",children:[e.jsx(a,{score:92,unit:"%",label:"CPU Usage",size:150,filledTickClassName:"stroke-green-500 stroke-2",tickClassName:"stroke-gray-200 stroke-1"}),e.jsx(a,{score:67,unit:"%",label:"Memory",size:150,filledTickClassName:"stroke-yellow-500 stroke-2",tickClassName:"stroke-gray-200 stroke-1"}),e.jsx(a,{score:34,unit:"%",label:"Storage",size:150,filledTickClassName:"stroke-red-500 stroke-2",tickClassName:"stroke-gray-200 stroke-1"})]})};var d,k,p;i.parameters={...i.parameters,docs:{...(d=i.parameters)==null?void 0:d.docs,source:{originalSource:`{
   args: {
     score: 87,
-    unit: '%',
-    label: 'Performance Score',
+    unit: "%",
+    label: "Performance Score",
     size: 200,
     tickCount: 40,
-    containerClassName: 'mx-auto',
-    valueClassName: 'text-primary-400',
-    filledTickClassName: 'stroke-primary-400 stroke-2',
-    tickClassName: 'stroke-gray-200 stroke-1'
+    containerClassName: "mx-auto",
+    valueClassName: "text-primary-400",
+    filledTickClassName: "stroke-primary-400 stroke-2",
+    tickClassName: "stroke-gray-200 stroke-1"
   }
 }`,...(p=(k=i.parameters)==null?void 0:k.docs)==null?void 0:p.source}}};var f,g,C;n.parameters={...n.parameters,docs:{...(f=n.parameters)==null?void 0:f.docs,source:{originalSource:`{
-  render: () => <div className='grid grid-cols-3 gap-4 p-4'>
-      <CircularGauge score={92} unit='%' label='CPU Usage' size={150} filledTickClassName='stroke-green-500 stroke-2' tickClassName='stroke-gray-200 stroke-1' />
-      <CircularGauge score={67} unit='%' label='Memory' size={150} filledTickClassName='stroke-yellow-500 stroke-2' tickClassName='stroke-gray-200 stroke-1' />
-      <CircularGauge score={34} unit='%' label='Storage' size={150} filledTickClassName='stroke-red-500 stroke-2' tickClassName='stroke-gray-200 stroke-1' />
+  render: () => <div className="grid grid-cols-3 gap-4 p-4">
+      <CircularGauge score={92} unit="%" label="CPU Usage" size={150} filledTickClassName="stroke-green-500 stroke-2" tickClassName="stroke-gray-200 stroke-1" />
+      <CircularGauge score={67} unit="%" label="Memory" size={150} filledTickClassName="stroke-yellow-500 stroke-2" tickClassName="stroke-gray-200 stroke-1" />
+      <CircularGauge score={34} unit="%" label="Storage" size={150} filledTickClassName="stroke-red-500 stroke-2" tickClassName="stroke-gray-200 stroke-1" />
     </div>
 }`,...(C=(g=n.parameters)==null?void 0:g.docs)==null?void 0:C.source}}};const U=["Performance","Dashboard"];export{n as Dashboard,i as Performance,U as __namedExportsOrder,R as default};
