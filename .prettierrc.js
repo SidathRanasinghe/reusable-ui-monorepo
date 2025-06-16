@@ -1,35 +1,35 @@
 module.exports = {
   // Basic formatting
   semi: true,
-  trailingComma: 'es5',
-  singleQuote: true,
+  trailingComma: "es5",
+  singleQuote: false,
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
 
   // JSX specific
-  jsxSingleQuote: true,
+  jsxSingleQuote: false,
   bracketSpacing: true,
   bracketSameLine: false,
-  arrowParens: 'avoid',
+  arrowParens: "avoid",
 
   // File specific overrides
   overrides: [
     {
-      files: '*.json',
+      files: "*.json",
       options: {
         printWidth: 200,
       },
     },
     {
-      files: '*.md',
+      files: "*.md",
       options: {
-        proseWrap: 'always',
+        proseWrap: "always",
         printWidth: 80,
       },
     },
     {
-      files: ['*.yaml', '*.yml'],
+      files: ["*.yaml", "*.yml"],
       options: {
         tabWidth: 2,
       },
@@ -37,5 +37,5 @@ module.exports = {
   ],
 
   // Plugins
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: ["prettier-plugin-tailwindcss"],
 };
