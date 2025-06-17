@@ -18,20 +18,18 @@ import { json } from "@codemirror/lang-json";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import ReactQuill from "react-quill";
-
-import { cn } from "../lib/utils";
 import "react-quill/dist/quill.snow.css";
 
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../../ui/select";
 import {
   Form,
   FormControl,
@@ -40,20 +38,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "../../ui/form";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Switch } from "./ui/switch";
-import { Alert, AlertDescription } from "./ui/alert";
-import { Checkbox } from "./ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { Label } from "./ui/label";
+} from "../../ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { Switch } from "../../ui/switch";
+import { Alert, AlertDescription } from "../../ui/alert";
+import { Checkbox } from "../../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+import { Label } from "../../ui/label";
+import { cn } from "../../../lib/utils";
 
 // ==================== CORE TYPES ====================
 
@@ -263,7 +262,7 @@ interface QuillEditorProps {
   readOnly?: boolean;
 }
 
-const RichTextEditor: React.FC<QuillEditorProps> = React.memo(
+const TextEditor: React.FC<QuillEditorProps> = React.memo(
   ({
     value,
     onChange,
@@ -315,7 +314,7 @@ const RichTextEditor: React.FC<QuillEditorProps> = React.memo(
   }
 );
 
-RichTextEditor.displayName = "RichTextEditor";
+TextEditor.displayName = "TextEditor";
 
 // ==================== UTILITY FUNCTIONS ====================
 
@@ -683,7 +682,7 @@ export const DynamicForm = forwardRef<DynamicFormRef, DynamicFormProps>(
           case "richtext":
             return (
               <div className="rounded-md border">
-                <RichTextEditor
+                <TextEditor
                   value={formField.value || ""}
                   onChange={baseProps.onChange}
                   placeholder={field.placeholder}

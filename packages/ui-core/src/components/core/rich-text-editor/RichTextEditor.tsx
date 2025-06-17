@@ -1,7 +1,9 @@
 import React from "react";
 import ReactQuill from "react-quill";
 
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
+
+import styles from "./styles.module.css";
 import "react-quill/dist/quill.snow.css";
 
 export interface QuillEditorProps {
@@ -38,7 +40,7 @@ const RichTextEditor: React.FC<QuillEditorProps> = ({
   ];
 
   return (
-    <div className={cn("editor-wrapper", className)}>
+    <div className={cn(styles.editorWrapper, className)}>
       <ReactQuill
         theme="snow"
         value={value}

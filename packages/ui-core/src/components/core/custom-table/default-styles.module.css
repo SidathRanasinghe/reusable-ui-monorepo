@@ -1,0 +1,67 @@
+.parentContainer {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.tableContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  height: fit-content;
+  /* border-collapse: separate; */
+  /* background: #0e1d22; */
+}
+
+.tableHeader {
+  /* background-color: #1b3b44;
+  color: white; */
+  border-radius: 6px;
+}
+
+.headerRow {
+  /* background: #1b3b44; */
+  border-radius: 6px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerCell {
+  font-size: 11px;
+  color: #3a3c41;
+  text-wrap: nowrap;
+  text-align: left;
+}
+
+.tableBody {
+  overflow: auto !important;
+}
+
+.cell {
+  font-size: 12px;
+  text-wrap: nowrap;
+  color: #484c51;
+}
+
+.pagination {
+  padding-top: 8px;
+  display: flex;
+}
+
+.tableContainer::-webkit-scrollbar-corner {
+  background: transparent !important;
+  color: transparent !important;
+}
+
+.tableContainer::-webkit-scrollbar-corner:horizontal {
+  background: transparent !important;
+  color: transparent !important;
+}

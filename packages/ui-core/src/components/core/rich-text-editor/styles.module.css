@@ -1,0 +1,35 @@
+.editorWrapper :global(.ql-toolbar) {
+  border-radius: 4px 4px 0 0;
+  border-color: #e6e9ee !important;
+  background-color: #f8f9fa;
+}
+
+.editorWrapper :global(.ql-container) {
+  border-radius: 0 0 4px 4px;
+  border-color: #e6e9ee !important;
+  font-family: inherit !important;
+  font-size: 12px;
+  min-height: 200px;
+}
+
+.editorWrapper :global(.ql-editor) {
+  min-height: 200px;
+}
+
+.editorWrapper :global(.ql-toolbar button) {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editorWrapper :global(.ql-toolbar button:hover) {
+  background-color: #e2e8f0;
+  border-radius: 4px;
+}
+
+.editorWrapper :global(.ql-toolbar button.ql-active) {
+  background-color: #e2e8f0;
+  border-radius: 4px;
+}

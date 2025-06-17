@@ -5,7 +5,7 @@ import React from "react";
 import {
   DynamicForm,
   DynamicFormRef,
-} from "../../packages/ui-core/src/components/DynamicForm";
+} from "../../packages/ui-core/src/components/core/dynamic-form/DynamicForm";
 import { Input } from "../../packages/ui-core/src/components/ui/input";
 import { Button } from "../../packages/ui-core/src/components/ui/button";
 

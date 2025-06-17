@@ -1,11 +1,10 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import { X } from "lucide-react";
 
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
+import { Button } from "../../ui/button";
 
-import { Button } from "./ui/button";
-
-export interface EditorDialogProps {
+export interface AdvancedDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (description: string) => void;
@@ -17,7 +16,7 @@ export interface EditorDialogProps {
   children: ReactNode;
 }
 
-const EditorDialog: React.FC<EditorDialogProps> = ({
+const AdvancedDialog: React.FC<AdvancedDialogProps> = ({
   isOpen,
   onClose,
   onSave,
@@ -110,4 +109,4 @@ const EditorDialog: React.FC<EditorDialogProps> = ({
   );
 };
 
-export default EditorDialog;
+export default AdvancedDialog;
