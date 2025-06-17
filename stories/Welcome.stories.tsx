@@ -60,7 +60,7 @@ const WelcomeComponent = () => {
               <h3 className="font-medium">UI Components</h3>
               <ul className="ml-4 space-y-1 text-sm">
                 <li>• Dialog - Modal dialog component</li>
-                <li>• RichTextEditor - WYSIWYG text editor</li>
+                <li>• RichTextEditor - text editor</li>
               </ul>
             </div>
           </div>

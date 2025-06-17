@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import CircularGauge from "../../packages/ui-core/src/components/CircularGauge";
+import CircularGauge from "../../packages/ui-core/src/components/core/circular-gauge/CircularGauge";
 
 const meta: Meta<typeof CircularGauge> = {
   title: "📊 Data Visualization/Circular Gauge",
