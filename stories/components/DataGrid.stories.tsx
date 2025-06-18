@@ -264,8 +264,10 @@ const productColumns: DataGridColumn<ProductData>[] = [
   },
 ];
 
+const title = `${CATEGORY.VISUALIZATION}/Data Grid`;
+
 const meta: Meta<typeof DataGrid> = {
-  title: `${CATEGORY.VISUALIZATION}/Data Grid`,
+  title,
   component: DataGrid,
   parameters: {
     layout: "fullscreen",
