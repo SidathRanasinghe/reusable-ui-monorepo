@@ -16,18 +16,13 @@
 .table {
   width: 100%;
   height: fit-content;
-  /* border-collapse: separate; */
-  /* background: #0e1d22; */
 }
 
 .tableHeader {
-  /* background-color: #1b3b44;
-  color: white; */
   border-radius: 6px;
 }
 
 .headerRow {
-  /* background: #1b3b44; */
   border-radius: 6px;
   position: sticky;
   top: 0;
