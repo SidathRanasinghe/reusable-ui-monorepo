@@ -67,6 +67,7 @@ export default tseslint.config(
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
 
       // React rules
       ...react.configs.recommended.rules,
@@ -84,7 +85,7 @@ export default tseslint.config(
       "react/jsx-curly-spacing": ["error", "never"],
       "react/jsx-equals-spacing": ["error", "never"],
       "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
-      "react/jsx-indent": ["error", 2],
+      // "react/jsx-indent": ["error", 2],
       "react/jsx-indent-props": ["error", 2],
       "react/jsx-no-bind": [
         "error",

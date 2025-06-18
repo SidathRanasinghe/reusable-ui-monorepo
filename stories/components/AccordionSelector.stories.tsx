@@ -16,7 +16,7 @@ import {
 import AccordionSelector, {
   SelectionState,
   AccordionGroup,
-} from "../../packages/ui-core/src/components/AccordionSelector";
+} from "../../packages/ui-core/src/components/core/accordion-selector/AccordionSelector";
 
 const meta: Meta<typeof AccordionSelector> = {
   title: "🎛️ Interactive/Accordion Selector",
