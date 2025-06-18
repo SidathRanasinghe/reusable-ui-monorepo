@@ -10,10 +10,7 @@ function getAbsolutePath(value: string): any {
 
 const config: StorybookConfig = {
   // Reusable component stories
-  stories: [
-    "../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../packages/ui-core/src/**/*.stories.@(js|jsx|mjs|ts|tsx)", // If there is any story in the packages folder
-  ],
+  stories: ["../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-controls"),
