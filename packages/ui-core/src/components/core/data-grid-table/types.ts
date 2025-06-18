@@ -10,11 +10,11 @@ export interface DataGridColumn<
   T extends GenericDataGridRow = GenericDataGridRow,
 > {
   /** Unique identifier for the column */
-  key: keyof T | string;
+  key: string;
   /** Column header text or component */
   title: string | ReactNode;
   /** Data accessor key */
-  dataIndex: keyof T | string;
+  dataIndex: string;
   /** Column width (CSS value) */
   width?: string | number;
   /** Minimum column width */

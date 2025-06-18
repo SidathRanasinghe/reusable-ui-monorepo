@@ -15,3 +15,4 @@ export * from "./components/core/dynamic-form/DynamicForm";
 export * from "./components/core/rich-text-editor/RichTextEditor";
 export * from "./components/core/avatar-array/AvatarArray";
 export * from "./components/core/network-graph/NetworkGraph";
+export * from "./components/core/data-grid-table/DataGrid";

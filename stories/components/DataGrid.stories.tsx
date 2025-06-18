@@ -5,6 +5,7 @@ import { Download, Edit, Eye, Plus, Settings, Trash2 } from "lucide-react";
 import DataGrid from "../../packages/ui-core/src/components/core/data-grid-table/DataGrid";
 import {
   DataGridColumn,
+  DataGridProps,
   GenericDataGridRow,
 } from "../../packages/ui-core/src/components/core/data-grid-table/types";
 import { generateSampleData } from "../../packages/ui-core/src/components/core/data-grid-table/utils";
@@ -263,7 +264,7 @@ const productColumns: DataGridColumn<ProductData>[] = [
 ];
 
 const meta: Meta<typeof DataGrid> = {
-  title: "Components/DataGrid",
+  title: "Data Visualization/Data Grid",
   component: DataGrid,
   parameters: {
     layout: "fullscreen",
@@ -321,10 +322,9 @@ const meta: Meta<typeof DataGrid> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof DataGrid>;
 
 // Basic Stories
-export const Default: Story = {
+export const Default: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 10),
     columns: employeeColumns,
@@ -335,7 +335,7 @@ export const Default: Story = {
   },
 };
 
-export const WithPagination: Story = {
+export const WithPagination: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData,
     columns: employeeColumns,
@@ -353,7 +353,7 @@ export const WithPagination: Story = {
   },
 };
 
-export const WithSelection: Story = {
+export const WithSelection: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 20),
     columns: employeeColumns,
@@ -374,7 +374,7 @@ export const WithSelection: Story = {
   },
 };
 
-export const WithRadioSelection: Story = {
+export const WithRadioSelection: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 15),
     columns: employeeColumns,
@@ -388,7 +388,7 @@ export const WithRadioSelection: Story = {
   },
 };
 
-export const Loading: Story = {
+export const Loading: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: [],
     columns: employeeColumns,
@@ -397,12 +397,11 @@ export const Loading: Story = {
     loading: {
       loading: true,
       rows: 8,
-      overlay: false,
     },
   },
 };
 
-export const Empty: Story = {
+export const Empty: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: [],
     columns: employeeColumns,
@@ -433,7 +432,7 @@ export const Empty: Story = {
   },
 };
 
-export const WithExport: Story = {
+export const WithExport: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 20),
     columns: employeeColumns,
@@ -452,7 +451,7 @@ export const WithExport: Story = {
   },
 };
 
-export const Customized: Story = {
+export const Customized: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 15),
     columns: employeeColumns,
@@ -509,7 +508,7 @@ export const Customized: Story = {
   },
 };
 
-export const ProductTable: Story = {
+export const ProductTable: StoryObj<DataGridProps<ProductData>> = {
   args: {
     dataSource: productData,
     columns: productColumns,
@@ -536,7 +535,7 @@ export const ProductTable: Story = {
   },
 };
 
-export const CompactTable: Story = {
+export const CompactTable: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 25),
     columns: employeeColumns.filter(col =>
@@ -556,7 +555,7 @@ export const CompactTable: Story = {
   },
 };
 
-export const SortableOnly: Story = {
+export const SortableOnly: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 15),
     columns: employeeColumns.map(col => ({ ...col, filterable: false })),
@@ -571,7 +570,7 @@ export const SortableOnly: Story = {
   },
 };
 
-export const CustomTheme: Story = {
+export const CustomTheme: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 12),
     columns: employeeColumns,
@@ -580,7 +579,6 @@ export const CustomTheme: Story = {
     theme: {
       primaryColor: "#3b82f6",
       secondaryColor: "#1f2937",
-      backgroundColor: "#111827",
       textColor: "#f9fafb",
       borderColor: "#374151",
       borderRadius: "8px",
@@ -608,7 +606,7 @@ export const CustomTheme: Story = {
 };
 
 // Interactive Stories for Testing
-export const InteractiveDemo: Story = {
+export const InteractiveDemo: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: employeeData.slice(0, 30),
     columns: employeeColumns,
@@ -674,7 +672,7 @@ export const InteractiveDemo: Story = {
 };
 
 // Performance Testing
-export const LargeDataset: Story = {
+export const LargeDataset: StoryObj<DataGridProps<EmployeeData>> = {
   args: {
     dataSource: generateSampleData(1000) as EmployeeData[],
     columns: employeeColumns,
