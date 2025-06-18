@@ -7,7 +7,7 @@ import {
 } from "../../packages/ui-core/src/components/core/network-graph/types";
 
 const meta: Meta<typeof NetworkGraph> = {
-  title: "Data Visualization/Network Graph",
+  title: "📊 Data Visualization/Network Graph",
   component: NetworkGraph,
   parameters: {
     layout: "fullscreen",

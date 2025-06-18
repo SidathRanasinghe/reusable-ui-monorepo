@@ -10,7 +10,7 @@ import { Input } from "../../packages/ui-core/src/components/ui/input";
 import { Button } from "../../packages/ui-core/src/components/ui/button";
 
 const meta: Meta<typeof DynamicForm> = {
-  title: "🔥 Showcase/Dynamic Form",
+  title: "🎛️ Interactive/Dynamic Form",
   component: DynamicForm,
   parameters: {
     layout: "padded",
