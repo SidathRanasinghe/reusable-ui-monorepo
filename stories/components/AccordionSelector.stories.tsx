@@ -17,12 +17,9 @@ import AccordionSelector, {
   SelectionState,
   AccordionGroup,
 } from "../../packages/ui-core/src/components/core/accordion-selector/AccordionSelector";
-import { CATEGORY } from "../common/constants";
-
-const title = `${CATEGORY.INTERACTIVE}/Accordion Selector`;
 
 const meta: Meta<typeof AccordionSelector> = {
-  title,
+  title: "🎛️ Interactive/Accordion Selector",
   component: AccordionSelector,
   tags: ["autodocs"],
   parameters: {

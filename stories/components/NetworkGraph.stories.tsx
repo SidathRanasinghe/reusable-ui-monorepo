@@ -5,12 +5,9 @@ import {
   Node,
   Link,
 } from "../../packages/ui-core/src/components/core/network-graph/types";
-import { CATEGORY } from "../common/constants";
-
-const title = `${CATEGORY.VISUALIZATION}/Network Graph`;
 
 const meta: Meta<typeof NetworkGraph> = {
-  title,
+  title: "📊 Data Visualization/Network Graph",
   component: NetworkGraph,
   parameters: {
     layout: "fullscreen",
