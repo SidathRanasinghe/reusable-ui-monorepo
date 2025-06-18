@@ -8,9 +8,10 @@ import {
 } from "../../packages/ui-core/src/components/core/dynamic-form/DynamicForm";
 import { Input } from "../../packages/ui-core/src/components/ui/input";
 import { Button } from "../../packages/ui-core/src/components/ui/button";
+import { CATEGORY } from "../common/constants";
 
 const meta: Meta<typeof DynamicForm> = {
-  title: "🔥 Showcase/Dynamic Form",
+  title: `${CATEGORY.FORMS}/Dynamic Form`,
   component: DynamicForm,
   parameters: {
     layout: "padded",

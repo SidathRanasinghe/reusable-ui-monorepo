@@ -9,6 +9,7 @@ import {
   GenericDataGridRow,
 } from "../../packages/ui-core/src/components/core/data-grid-table/types";
 import { generateSampleData } from "../../packages/ui-core/src/components/core/data-grid-table/utils";
+import { CATEGORY } from "../common/constants";
 
 // Sample data interfaces
 interface EmployeeData extends GenericDataGridRow {
@@ -264,7 +265,7 @@ const productColumns: DataGridColumn<ProductData>[] = [
 ];
 
 const meta: Meta<typeof DataGrid> = {
-  title: "Data Visualization/Data Grid",
+  title: `${CATEGORY.VISUALIZATION}/Data Grid`,
   component: DataGrid,
   parameters: {
     layout: "fullscreen",
