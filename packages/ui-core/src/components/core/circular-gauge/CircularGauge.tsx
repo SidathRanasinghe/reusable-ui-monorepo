@@ -1,4 +1,11 @@
-import React from "react";
+import {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 export interface CircularGaugeProps {
   /** Current value to display */
@@ -89,10 +96,10 @@ export interface CircularGaugeProps {
   majorTickClassName?: string;
   tickLabelClassName?: string;
   /** Custom styles */
-  style?: React.CSSProperties;
-  containerStyle?: React.CSSProperties;
-  valueStyle?: React.CSSProperties;
-  labelStyle?: React.CSSProperties;
+  style?: CSSProperties;
+  containerStyle?: CSSProperties;
+  valueStyle?: CSSProperties;
+  labelStyle?: CSSProperties;
   /** Accessibility */
   "aria-label"?: string;
   "aria-describedby"?: string;
@@ -100,13 +107,13 @@ export interface CircularGaugeProps {
   onAnimationComplete?: () => void;
   onValueChange?: (value: number) => void;
   /** Render props for custom content */
-  renderValue?: (value: number, formattedValue: string) => React.ReactNode;
-  renderLabel?: (label: string) => React.ReactNode;
+  renderValue?: (value: number, formattedValue: string) => ReactNode;
+  renderLabel?: (label: string) => ReactNode;
   renderCenterContent?: (
     value: number,
     formattedValue: string,
     label?: string
-  ) => React.ReactNode;
+  ) => ReactNode;
   /** Performance optimization */
   shouldAnimate?: (newValue: number, oldValue: number) => boolean;
   /** Tooltip configuration */
@@ -152,7 +159,7 @@ const EASING_FUNCTIONS = {
     t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2,
 };
 
-const CircularGauge: React.FC<CircularGaugeProps> = ({
+const CircularGauge: FC<CircularGaugeProps> = ({
   value,
   max = 100,
   min = 0,
@@ -197,19 +204,17 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({
   shouldAnimate,
   tooltip = {},
 }) => {
-  const [animatedValue, setAnimatedValue] = React.useState(
-    animated ? min : value
-  );
-  const [isAnimating, setIsAnimating] = React.useState(false);
-  const animationRef = React.useRef<number>();
-  const previousValueRef = React.useRef(value);
+  const [animatedValue, setAnimatedValue] = useState(animated ? min : value);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animationRef = useRef<number>();
+  const previousValueRef = useRef(value);
 
   // Clamp and normalize value
   const clampedValue = Math.max(min, Math.min(max, value));
   const normalizedValue = clampedValue;
 
   // Enhanced animation with custom easing
-  React.useEffect(() => {
+  useEffect(() => {
     if (previousValueRef.current === clampedValue) return;
 
     const shouldAnimateValue = shouldAnimate
@@ -261,19 +266,17 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({
         cancelAnimationFrame(animationRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     clampedValue,
     animated,
     animationDuration,
     animationEasing,
-    shouldAnimate,
-    onAnimationComplete,
-    onValueChange,
     animatedValue,
   ]);
 
   // Cleanup animation on unmount
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);

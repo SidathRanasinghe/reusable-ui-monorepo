@@ -72,6 +72,7 @@ const DynamicTabContainer: React.FC<DynamicTabContainerProps> = ({
 
   useEffect(() => {
     setActiveTab(extractActiveTab());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabItems, initialTabId]);
 
   // If there are no tabs, show a fallback

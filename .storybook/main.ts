@@ -33,6 +33,15 @@ const config: StorybookConfig = {
     },
   },
   viteFinal: async (config, { configType }) => {
+    // Configure static assets directory
+    config.publicDir = join(__dirname, "../assets");
+
+    // eslint-disable-next-line no-console
+    console.info(
+      "===================================================\nENVIORNMENT: %s\n===================================================",
+      configType
+    );
+
     // Configure for GitHub Pages deployment
     if (configType === "PRODUCTION") {
       config.base = "/reusable-ui-monorepo/";
@@ -78,7 +87,19 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
+        // Main package alias
         "@": join(__dirname, "../packages/ui-core/src"),
+
+        // Assets alias
+        "@assets": join(__dirname, "../assets"),
+
+        // Component-specific aliases
+        "@ui": join(__dirname, "../packages/ui-core/src/components/ui"),
+        "@core": join(__dirname, "../packages/ui-core/src/components/core"),
+        "@common": join(__dirname, "../packages/ui-core/src/components/common"),
+
+        // Utils and lib
+        "@lib": join(__dirname, "../packages/ui-core/src/lib"),
       },
     };
 

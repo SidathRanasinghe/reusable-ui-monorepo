@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import CircularGauge from "../../packages/ui-core/src/components/core/circular-gauge/CircularGauge";
 
 const meta: Meta<typeof CircularGauge> = {
-  title: "📊 Data Visualization/Circular Gauge",
+  title: "Data Visualization/Circular Gauge",
   component: CircularGauge,
   parameters: {
     docs: {
