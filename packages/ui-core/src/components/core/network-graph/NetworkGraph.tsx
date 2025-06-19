@@ -197,7 +197,8 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
     if (zoomLevel && handleZoom) {
       handleZoom(zoomLevel);
     }
-  }, [zoomLevel, handleZoom]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomLevel]);
 
   // Handle fit on mount
   useEffect(() => {
@@ -207,7 +208,8 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [fitOnMount, fitGraphToContainer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fitOnMount]);
 
   // Render node function
   const renderNode = useCallback(
@@ -774,6 +776,7 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
         simulation.simulation.stop();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     processedNodes,
     processedLinks,
@@ -787,12 +790,6 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
     maxRenderLinks,
     minZoom,
     maxZoom,
-    customNodeRenderer,
-    customLinkRenderer,
-    renderNode,
-    handleNodeHover,
-    handleLinkHover,
-    handleCanvasClick,
     dragBehavior,
     simulation,
   ]);

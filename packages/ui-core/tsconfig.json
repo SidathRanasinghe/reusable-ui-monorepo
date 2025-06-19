@@ -3,7 +3,17 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "esnext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": ["../../assets/*"],
+      "@ui/*": ["src/components/ui/*"],
+      "@core/*": ["src/components/core/*"],
+      "@common/*": ["src/components/common/*"],
+      "@lib": ["src/lib/*"]
+    }
   },
-  "include": ["src", "../../types.d.ts"]
+  "include": ["src/**/*", "../../types.d.ts", "../../assets/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

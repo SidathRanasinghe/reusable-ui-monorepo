@@ -38,7 +38,8 @@ const SelectTabContentOptions = ({
 
   useEffect(() => {
     if (isOpen) onOpen?.();
-  }, [isOpen, onOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   useEffect(() => setLoading(isLoading), [isLoading]);
 
@@ -87,7 +88,8 @@ const SelectTabContentOptions = ({
 
   useEffect(
     () => setTabConfigs(manipulateTabs()),
-    [tabs, loading, manipulateTabs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tabs, loading]
   );
 
   return (

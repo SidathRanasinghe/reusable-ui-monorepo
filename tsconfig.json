@@ -10,8 +10,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["packages/ui-core/src/*"],
+      "@assets/*": ["assets/*"],
+      "@ui/*": ["packages/ui-core/src/components/ui/*"],
+      "@core/*": ["packages/ui-core/src/components/core/*"],
+      "@common/*": ["packages/ui-core/src/components/common/*"],
+      "@lib": ["packages/ui-core/src/lib/*"]
+    }
   },
-  "include": ["types.d.ts", "*.js", "*.ts", "*.tsx", "*.json"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["types.d.ts", "*.js", "*.ts", "*.tsx", "*.json", "assets/**/*", "packages/**/*", "stories/**/*"],
+  "exclude": ["node_modules", "dist", "build", "storybook-static"]
 }

@@ -62,7 +62,8 @@ export const useNetworkGraph = ({
         window.removeEventListener("resize", debouncedUpdateDimensions);
       };
     }
-  }, [width, height, debouncedUpdateDimensions, containerRef]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, height, containerRef]);
 
   return {
     dimensions,

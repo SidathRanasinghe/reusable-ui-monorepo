@@ -98,6 +98,7 @@ const Minimap: React.FC<MinimapProps> = ({
         width: calculatedWidth,
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgRef.current, height, minWidth, maxWidth]);
 
   // Position classes
@@ -321,6 +322,7 @@ const Minimap: React.FC<MinimapProps> = ({
       mainSvg.on("zoom.minimap", null);
       observer.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     svgRef.current,
     zoomBehaviorRef.current,

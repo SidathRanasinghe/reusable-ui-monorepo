@@ -62,6 +62,7 @@ const DateRangeSelector = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCustomRange]);
 
   // Format a date to YYYY-MM-DD string
