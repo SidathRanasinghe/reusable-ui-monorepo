@@ -260,14 +260,19 @@ export const InteractiveCarousel = forwardRef<
       responsive = [],
     } = options;
 
-    // Auto-play functionality
+    // Auto-play functionality - Fixed to prevent infinite re-renders
     const startAutoPlay = useCallback(() => {
-      if (!autoPlay || !api || isPlaying || !isInitialized) return;
+      // Prevent starting if already playing or conditions not met
+      if (!autoPlay || !api || autoPlayRef.current || !isInitialized) return;
 
-      setIsPlaying(true);
-      onAutoPlayStart?.();
+      // Only call onAutoPlayStart if not already playing
+      if (!isPlaying) {
+        setIsPlaying(true);
+        onAutoPlayStart?.();
+      }
 
       autoPlayRef.current = setInterval(() => {
+        // Check pause conditions inside interval
         if (pauseOnHover && isHovered) return;
         if (pauseOnFocus && isFocused) return;
 
@@ -294,27 +299,29 @@ export const InteractiveCarousel = forwardRef<
       api,
       autoPlayInterval,
       autoPlayDirection,
+      infinite,
+      slides.length,
+      isInitialized,
+      onAutoPlayStart,
+      isPlaying,
+      canGoNext,
+      canGoPrevious,
       pauseOnHover,
       pauseOnFocus,
       isHovered,
       isFocused,
-      infinite,
-      canGoNext,
-      canGoPrevious,
-      slides.length,
-      isPlaying,
-      isInitialized,
-      onAutoPlayStart,
     ]);
 
     const stopAutoPlay = useCallback(() => {
       if (autoPlayRef.current) {
         clearInterval(autoPlayRef.current);
         autoPlayRef.current = undefined;
-        setIsPlaying(false);
-        onAutoPlayStop?.();
+        if (isPlaying) {
+          setIsPlaying(false);
+          onAutoPlayStop?.();
+        }
       }
-    }, [onAutoPlayStop]);
+    }, [isPlaying, onAutoPlayStop]);
 
     // Navigation functions
     const goToSlide = useCallback(
@@ -461,11 +468,13 @@ export const InteractiveCarousel = forwardRef<
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [api]);
 
-    // Auto-play management
+    // Auto-play management - Fixed to prevent infinite loops
     useEffect(() => {
-      if (autoPlay && !isPlaying && isInitialized) {
+      if (autoPlay && isInitialized && !autoPlayRef.current) {
+        // Only start if not already running
         startAutoPlay();
-      } else if (!autoPlay && isPlaying) {
+      } else if (!autoPlay && autoPlayRef.current) {
+        // Only stop if currently running
         stopAutoPlay();
       }
 
@@ -473,7 +482,7 @@ export const InteractiveCarousel = forwardRef<
         stopAutoPlay();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [autoPlay, isPlaying, isInitialized]);
+    }, [autoPlay, isInitialized]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -517,20 +526,6 @@ export const InteractiveCarousel = forwardRef<
     }, [keyboard, slides.length, isPlaying, isInitialized]);
 
     // Event handlers
-    const handleMouseEnter = useCallback(() => {
-      setIsHovered(true);
-      if (pauseOnHover && autoPlay) {
-        stopAutoPlay();
-      }
-    }, [pauseOnHover, autoPlay, stopAutoPlay]);
-
-    const handleMouseLeave = useCallback(() => {
-      setIsHovered(false);
-      if (pauseOnHover && autoPlay && resumeOnBlur) {
-        startAutoPlay();
-      }
-    }, [pauseOnHover, autoPlay, resumeOnBlur, startAutoPlay]);
-
     const handleFocus = useCallback(
       (index: number) => {
         setIsFocused(true);
@@ -545,12 +540,9 @@ export const InteractiveCarousel = forwardRef<
     const handleBlur = useCallback(
       (index: number) => {
         setIsFocused(false);
-        if (pauseOnFocus && autoPlay && resumeOnBlur) {
-          startAutoPlay();
-        }
         onBlur?.(index);
       },
-      [pauseOnFocus, autoPlay, resumeOnBlur, startAutoPlay, onBlur]
+      [onBlur]
     );
 
     const handleSlideClick = useCallback(
@@ -560,6 +552,33 @@ export const InteractiveCarousel = forwardRef<
       },
       [onSlideClick]
     );
+
+    // Separate effect for handling hover/focus pause/resume
+    useEffect(() => {
+      if (!autoPlay || !isInitialized) return;
+
+      if (pauseOnHover && isHovered) {
+        stopAutoPlay();
+      } else if (pauseOnFocus && isFocused) {
+        stopAutoPlay();
+      } else if (
+        resumeOnBlur &&
+        !isHovered &&
+        !isFocused &&
+        !autoPlayRef.current
+      ) {
+        startAutoPlay();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+      autoPlay,
+      isInitialized,
+      pauseOnHover,
+      pauseOnFocus,
+      resumeOnBlur,
+      isHovered,
+      isFocused,
+    ]);
 
     // Loading state
     if (loading) {
@@ -625,8 +644,12 @@ export const InteractiveCarousel = forwardRef<
           className
         )}
         style={{ ...themeStyles, ...responsiveStyles, ...style }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={() => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+        }}
         role={role}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}

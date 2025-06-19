@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
+import { CircleX } from "lucide-react";
 
 import {
   InteractiveCarousel,
@@ -405,12 +407,28 @@ The component supports various use cases from simple image galleries to complex 
       description: "Callback fired when a slide is clicked",
     },
   },
+  args: {
+    // Define all callback functions as spies
+    onSlideChange: fn(),
+    onSlideClick: fn(),
+    onBeforeSlideChange: fn(),
+    onAfterSlideChange: fn(),
+    onAutoPlayStart: fn(),
+    onAutoPlayStop: fn(),
+    onDragStart: fn(),
+    onDragEnd: fn(),
+    onSwipeStart: fn(),
+    onSwipeEnd: fn(),
+    onFocus: fn(),
+    onBlur: fn(),
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof InteractiveCarousel>;
 
-// Basic Stories
+// ==== BASIC STORIES ====
+
 export const Default: Story = {
   args: {
     slides: imageSlides,
@@ -420,678 +438,680 @@ export const Default: Story = {
   },
 };
 
-// export const ContentCarousel: Story = {
-//   args: {
-//     slides: contentSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//   },
-// };
+export const ContentCarousel: Story = {
+  args: {
+    slides: contentSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+  },
+};
 
-// export const ProductShowcase: Story = {
-//   args: {
-//     slides: productSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       slidesToShow: 3,
-//       slidesToScroll: 1,
-//       infinite: true,
-//     },
-//   },
-// };
+export const ProductShowcase: Story = {
+  args: {
+    slides: productSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      infinite: true,
+    },
+  },
+};
 
-// // Size Variations
-// export const SmallSize: Story = {
-//   args: {
-//     slides: contentSlides,
-//     size: "sm",
-//     navigation: true,
-//     indicators: true,
-//   },
-// };
+// ==== SIZE VARIATIONS ====
 
-// export const FullWidth: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "full",
-//     navigation: true,
-//     indicators: true,
-//   },
-//   parameters: {
-//     layout: "fullscreen",
-//   },
-// };
+export const SmallSize: Story = {
+  args: {
+    slides: contentSlides,
+    size: "sm",
+    navigation: true,
+    indicators: true,
+  },
+};
 
-// // Navigation Variants
-// export const MinimalNavigation: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: {
-//       variant: "minimal",
-//       size: "lg",
-//     },
-//     indicators: true,
-//   },
-// };
+export const FullWidth: Story = {
+  args: {
+    slides: imageSlides,
+    size: "full",
+    navigation: true,
+    indicators: true,
+  },
+  parameters: {
+    layout: "fullscreen",
+  },
+};
 
-// export const RoundedNavigation: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: {
-//       variant: "rounded",
-//       size: "md",
-//     },
-//     indicators: true,
-//   },
-// };
+// ==== NAVIGATION VARIANTS ====
 
-// export const NoNavigation: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: false,
-//     indicators: true,
-//   },
-// };
+export const MinimalNavigation: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: {
+      variant: "minimal",
+      size: "lg",
+    },
+    indicators: true,
+  },
+};
 
-// // Indicator Variants
-// export const LineIndicators: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: {
-//       variant: "lines",
-//       position: "bottom",
-//       alignment: "center",
-//     },
-//   },
-// };
+export const RoundedNavigation: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: {
+      variant: "rounded",
+      size: "md",
+    },
+    indicators: true,
+  },
+};
 
-// export const NumberIndicators: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: {
-//       variant: "numbers",
-//       position: "bottom",
-//       alignment: "center",
-//     },
-//   },
-// };
+export const NoNavigation: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: false,
+    indicators: true,
+  },
+};
 
-// export const TopIndicators: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: {
-//       variant: "dots",
-//       position: "top",
-//       alignment: "center",
-//     },
-//   },
-// };
+// ==== INDICATOR VARIANTS ====
 
-// export const NoIndicators: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: false,
-//   },
-// };
+export const LineIndicators: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: {
+      variant: "lines",
+      position: "bottom",
+      alignment: "center",
+    },
+  },
+};
 
-// // Auto-play Examples
-// export const AutoPlay: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       autoPlay: true,
-//       autoPlayInterval: 2000,
-//       pauseOnHover: true,
-//       infinite: true,
-//     },
-//   },
-// };
+export const NumberIndicators: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: {
+      variant: "numbers",
+      position: "bottom",
+      alignment: "center",
+    },
+  },
+};
 
-// export const AutoPlayFast: Story = {
-//   args: {
-//     slides: contentSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       autoPlay: true,
-//       autoPlayInterval: 1000,
-//       pauseOnHover: false,
-//       infinite: true,
-//     },
-//   },
-// };
+export const TopIndicators: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: {
+      variant: "dots",
+      position: "top",
+      alignment: "center",
+    },
+  },
+};
 
-// // Multiple Slides
-// export const MultipleSlides: Story = {
-//   args: {
-//     slides: productSlides,
-//     size: "xl",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       slidesToShow: 2,
-//       slidesToScroll: 1,
-//       infinite: true,
-//     },
-//   },
-// };
+export const NoIndicators: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: false,
+  },
+};
 
-// export const ThreeSlides: Story = {
-//   args: {
-//     slides: [...productSlides, ...productSlides], // Duplicate for more slides
-//     size: "full",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       slidesToShow: 3,
-//       slidesToScroll: 2,
-//       infinite: true,
-//     },
-//   },
-//   parameters: {
-//     layout: "fullscreen",
-//   },
-// };
+// ==== AUTO-PLAY EXAMPLES ====
 
-// // Advanced Configurations
-// export const CustomStyling: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     className: "shadow-2xl rounded-2xl overflow-hidden",
-//     contentClassName: "gap-4",
-//     navigation: {
-//       variant: "rounded",
-//       size: "lg",
-//       className: "shadow-lg",
-//     },
-//     indicators: {
-//       variant: "dots",
-//       position: "bottom",
-//       alignment: "center",
-//       className: "p-4",
-//       activeClassName: "bg-red-500 scale-125",
-//       inactiveClassName: "bg-gray-400 hover:bg-gray-500",
-//     },
-//   },
-// };
+export const AutoPlay: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      autoPlay: true,
+      autoPlayInterval: 2000,
+      pauseOnHover: true,
+      infinite: true,
+    },
+  },
+};
 
-// export const NonInfinite: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       infinite: false,
-//       draggable: true,
-//     },
-//   },
-// };
+export const AutoPlayFast: Story = {
+  args: {
+    slides: contentSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      autoPlay: true,
+      autoPlayInterval: 1000,
+      pauseOnHover: false,
+      infinite: true,
+    },
+  },
+};
 
-// export const NonDraggable: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       draggable: false,
-//       infinite: true,
-//     },
-//   },
-// };
+// ==== MULTIPLE SLIDES ====
 
-// // Interactive Examples
-// export const WithCallbacks: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     onSlideChange: (index, slide) => {
-//       console.log("Slide changed:", { index, slide });
-//     },
-//     onSlideClick: (slide, index) => {
-//       console.log("Slide clicked:", { slide, index });
-//       alert(
-//         `Clicked slide ${index + 1}: ${slide.metadata?.category || "Unknown"}`
-//       );
-//     },
-//   },
-// };
+export const MultipleSlides: Story = {
+  args: {
+    slides: productSlides,
+    size: "xl",
+    navigation: true,
+    indicators: true,
+    options: {
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      infinite: true,
+    },
+  },
+};
 
-// // Edge Cases
-// export const SingleSlide: Story = {
-//   args: {
-//     slides: [imageSlides[0]],
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//   },
-// };
+export const ThreeSlides: Story = {
+  args: {
+    slides: [...productSlides, ...productSlides], // Duplicate for more slides
+    size: "full",
+    navigation: true,
+    indicators: true,
+    options: {
+      slidesToShow: 3,
+      slidesToScroll: 2,
+      infinite: true,
+    },
+  },
+  parameters: {
+    layout: "fullscreen",
+  },
+};
 
-// export const EmptySlides: Story = {
-//   args: {
-//     slides: [],
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//   },
-// };
+// ==== ADVANCED FEATURES ====
 
-// // ==== ADVANCED FEATURES ====
+export const VideoMediaCarousel: Story = {
+  args: {
+    slides: videoSlides,
+    size: "lg",
+    navigation: {
+      variant: "floating",
+      size: "lg",
+      position: "overlay",
+    },
+    indicators: {
+      variant: "dots",
+      position: "bottom",
+    },
+    options: {
+      autoPlay: false, // Don't auto-play with video content
+      pauseOnHover: true,
+      draggable: true,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Carousel optimized for video and interactive media content with overlay navigation.",
+      },
+    },
+  },
+};
 
-// export const VideoMediaCarousel: Story = {
-//   args: {
-//     slides: videoSlides,
-//     size: "lg",
-//     navigation: {
-//       variant: "floating",
-//       size: "lg",
-//       position: "overlay",
-//     },
-//     indicators: {
-//       variant: "dots",
-//       position: "bottom",
-//     },
-//     options: {
-//       autoPlay: false, // Don't auto-play with video content
-//       pauseOnHover: true,
-//       draggable: true,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Carousel optimized for video and interactive media content with overlay navigation.",
-//       },
-//     },
-//   },
-// };
+export const TestimonialCarousel: Story = {
+  args: {
+    slides: testimonialSlides,
+    size: "lg",
+    navigation: {
+      variant: "minimal",
+      size: "md",
+      position: "outside",
+    },
+    indicators: {
+      variant: "lines",
+      position: "bottom",
+      alignment: "center",
+    },
+    options: {
+      autoPlay: true,
+      autoPlayInterval: 3000,
+      pauseOnHover: true,
+      infinite: true,
+      transition: "fade",
+      transitionDuration: 100,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Perfect for displaying customer testimonials with fade transitions and auto-play.",
+      },
+    },
+  },
+};
 
-// export const TestimonialCarousel: Story = {
-//   args: {
-//     slides: testimonialSlides,
-//     size: "lg",
-//     navigation: {
-//       variant: "minimal",
-//       size: "md",
-//       position: "outside",
-//     },
-//     indicators: {
-//       variant: "lines",
-//       position: "bottom",
-//       alignment: "center",
-//     },
-//     options: {
-//       autoPlay: true,
-//       autoPlayInterval: 4000,
-//       pauseOnHover: true,
-//       infinite: true,
-//       transition: "fade",
-//       transitionDuration: 500,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Perfect for displaying customer testimonials with fade transitions and auto-play.",
-//       },
-//     },
-//   },
-// };
+export const FeatureHighlights: Story = {
+  args: {
+    slides: featureSlides,
+    size: "lg",
+    navigation: true,
+    indicators: {
+      variant: "numbers",
+      position: "bottom",
+      alignment: "center",
+    },
+    options: {
+      centerMode: true,
+      infinite: true,
+      focusOnSelect: true,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Showcase product features with center mode and focus selection.",
+      },
+    },
+  },
+};
 
-// export const FeatureHighlights: Story = {
-//   args: {
-//     slides: featureSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: {
-//       variant: "numbers",
-//       position: "bottom",
-//       alignment: "center",
-//     },
-//     options: {
-//       centerMode: true,
-//       infinite: true,
-//       focusOnSelect: true,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Showcase product features with center mode and focus selection.",
-//       },
-//     },
-//   },
-// };
+export const CustomStyling: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    className: "shadow-2xl rounded-2xl overflow-hidden",
+    contentClassName: "gap-4",
+    navigation: {
+      variant: "rounded",
+      size: "lg",
+      className: "shadow-lg",
+    },
+    indicators: {
+      variant: "dots",
+      position: "bottom",
+      alignment: "center",
+      className: "p-4",
+      activeClassName: "bg-red-500 scale-125",
+      inactiveClassName: "bg-gray-400 hover:bg-gray-500",
+    },
+  },
+};
 
-// // ==== RESPONSIVE & LAYOUT EXAMPLES ====
+export const NonInfinite: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      infinite: false,
+      draggable: true,
+    },
+  },
+};
 
-// export const ResponsiveCarousel: Story = {
-//   args: {
-//     slides: productSlides.concat(productSlides), // More slides for better demo
-//     size: "full",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       slidesToShow: 4,
-//       slidesToScroll: 2,
-//       infinite: true,
-//       responsive: [
-//         {
-//           breakpoint: 1024,
-//           settings: {
-//             slidesToShow: 3,
-//             slidesToScroll: 1,
-//           },
-//         },
-//         {
-//           breakpoint: 768,
-//           settings: {
-//             slidesToShow: 2,
-//             slidesToScroll: 1,
-//           },
-//         },
-//         {
-//           breakpoint: 480,
-//           settings: {
-//             slidesToShow: 1,
-//             slidesToScroll: 1,
-//           },
-//         },
-//       ],
-//     },
-//   },
-//   parameters: {
-//     layout: "fullscreen",
-//     docs: {
-//       description: {
-//         story:
-//           "Responsive carousel that adapts slides count based on screen size. Resize your browser to see the effect.",
-//       },
-//     },
-//   },
-// };
+export const NonDraggable: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      draggable: false,
+      infinite: true,
+    },
+  },
+};
 
-// export const CenterModeCarousel: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "xl",
-//     navigation: {
-//       variant: "rounded",
-//       size: "lg",
-//       position: "outside",
-//     },
-//     indicators: true,
-//     options: {
-//       centerMode: true,
-//       slidesToShow: 3,
-//       slidesToScroll: 1,
-//       infinite: true,
-//       focusOnSelect: true,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Center mode displays the active slide prominently with partial views of adjacent slides.",
-//       },
-//     },
-//   },
-// };
+// ==== RESPONSIVE & LAYOUT EXAMPLES ====
 
-// // ==== ACCESSIBILITY & INTERACTION ====
+export const ResponsiveCarousel: Story = {
+  args: {
+    slides: productSlides.concat(productSlides), // More slides for better demo
+    size: "full",
+    navigation: true,
+    indicators: true,
+    options: {
+      slidesToShow: 4,
+      slidesToScroll: 2,
+      infinite: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    },
+  },
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "Responsive carousel that adapts slides count based on screen size. Resize your browser to see the effect.",
+      },
+    },
+  },
+};
 
-// export const KeyboardNavigationDemo: Story = {
-//   args: {
-//     slides: contentSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       keyboard: true,
-//       focusOnSelect: true,
-//       announceSlideChanges: true,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Demonstrates keyboard navigation. Use Arrow Keys (←/→), Home/End, and Spacebar to control the carousel.",
-//       },
-//     },
-//   },
-// };
+export const CenterModeCarousel: Story = {
+  args: {
+    slides: imageSlides,
+    size: "xl",
+    navigation: {
+      variant: "rounded",
+      size: "lg",
+      position: "outside",
+    },
+    indicators: true,
+    options: {
+      centerMode: true,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      infinite: true,
+      focusOnSelect: true,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Center mode displays the active slide prominently with partial views of adjacent slides.",
+      },
+    },
+  },
+};
 
-// export const AccessibilityFocused: Story = {
-//   args: {
-//     slides: featureSlides,
-//     size: "lg",
-//     navigation: {
-//       variant: "default",
-//       size: "lg",
-//       ariaLabels: {
-//         previous: "Go to previous feature",
-//         next: "Go to next feature",
-//       },
-//     },
-//     indicators: {
-//       variant: "dots",
-//       position: "bottom",
-//       ariaLabel: "Feature navigation",
-//     },
-//     "aria-label": "Product features carousel",
-//     "aria-describedby": "carousel-description",
-//     options: {
-//       keyboard: true,
-//       announceSlideChanges: true,
-//       focusOnSelect: true,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Accessibility-focused carousel with custom ARIA labels and screen reader support.",
-//       },
-//     },
-//   },
-// };
+// ==== ACCESSIBILITY & INTERACTION ====
 
-// // ==== ADVANCED STYLING & THEMING ====
+export const KeyboardNavigationDemo: Story = {
+  args: {
+    slides: contentSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      keyboard: true,
+      focusOnSelect: true,
+      announceSlideChanges: true,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Demonstrates keyboard navigation. Use Arrow Keys (←/→), Home/End, and Spacebar to control the carousel.",
+      },
+    },
+  },
+};
 
-// export const DarkThemeCarousel: Story = {
-//   args: {
-//     slides: imageSlides,
-//     size: "lg",
-//     className: "bg-gray-900 p-6 rounded-lg",
-//     navigation: {
-//       variant: "outline",
-//       size: "lg",
-//       className: "border-white text-white hover:bg-white hover:text-gray-900",
-//     },
-//     indicators: {
-//       variant: "dots",
-//       position: "bottom",
-//       activeClassName: "bg-white",
-//       inactiveClassName: "bg-gray-600 hover:bg-gray-400",
-//     },
-//     theme: {
-//       colors: {
-//         primary: "#ffffff",
-//         secondary: "#6b7280",
-//         background: "#1f2937",
-//         foreground: "#ffffff",
-//         border: "#374151",
-//         accent: "#3b82f6",
-//       },
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story: "Dark theme carousel with custom colors and styling.",
-//       },
-//     },
-//   },
-// };
+export const AccessibilityFocused: Story = {
+  args: {
+    slides: featureSlides,
+    size: "lg",
+    navigation: {
+      variant: "default",
+      size: "lg",
+      ariaLabels: {
+        previous: "Go to previous feature",
+        next: "Go to next feature",
+      },
+    },
+    indicators: {
+      variant: "dots",
+      position: "bottom",
+      ariaLabel: "Feature navigation",
+    },
+    "aria-label": "Product features carousel",
+    "aria-describedby": "carousel-description",
+    options: {
+      keyboard: true,
+      announceSlideChanges: true,
+      focusOnSelect: true,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Accessibility-focused carousel with custom ARIA labels and screen reader support.",
+      },
+    },
+  },
+};
 
-// export const CustomRendererExample: Story = {
-//   args: {
-//     slides: productSlides,
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     renderSlide: (slide, index, isActive) => (
-//       <div
-//         className={`transition-all duration-300 ${isActive ? "scale-105" : "scale-95 opacity-70"}`}
-//       >
-//         {slide.content}
-//         <div className="mt-2 text-center">
-//           <span
-//             className={`rounded px-2 py-1 text-xs ${isActive ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-600"}`}
-//           >
-//             Slide {index + 1}
-//           </span>
-//         </div>
-//       </div>
-//     ),
-//     renderNavigation: ({
-//       canGoNext,
-//       canGoPrevious,
-//       goToNext,
-//       goToPrevious,
-//     }) => (
-//       <div className="flex gap-2">
-//         <button
-//           onClick={goToPrevious}
-//           disabled={!canGoPrevious}
-//           className="rounded-full bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
-//         >
-//           ← Prev
-//         </button>
-//         <button
-//           onClick={goToNext}
-//           disabled={!canGoNext}
-//           className="rounded-full bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
-//         >
-//           Next →
-//         </button>
-//       </div>
-//     ),
-//     options: {
-//       slidesToShow: 1,
-//       infinite: false,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Custom slide and navigation renderers for complete control over appearance.",
-//       },
-//     },
-//   },
-// };
+// ==== ADVANCED STYLING & THEMING ====
 
-// // ==== PERFORMANCE & OPTIMIZATION ====
+export const DarkThemeCarousel: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    className: "bg-gray-900 p-6 rounded-lg",
+    navigation: {
+      variant: "outline",
+      size: "lg",
+      className: "border-white text-white hover:bg-white hover:text-gray-900",
+    },
+    indicators: {
+      variant: "dots",
+      position: "bottom",
+      activeClassName: "bg-white",
+      inactiveClassName: "bg-gray-600 hover:bg-gray-400",
+    },
+    theme: {
+      colors: {
+        primary: "#ffffff",
+        secondary: "#6b7280",
+        background: "#1f2937",
+        foreground: "#ffffff",
+        border: "#374151",
+        accent: "#3b82f6",
+      },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Dark theme carousel with custom colors and styling.",
+      },
+    },
+  },
+};
 
-// export const LazyLoadingCarousel: Story = {
-//   args: {
-//     slides: [...imageSlides, ...imageSlides, ...imageSlides], // Triple slides for demo
-//     size: "lg",
-//     navigation: true,
-//     indicators: true,
-//     options: {
-//       lazyLoad: true,
-//       preloadSlides: 2,
-//       infinite: true,
-//       autoPlay: true,
-//       autoPlayInterval: 3000,
-//     },
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story:
-//           "Optimized for performance with lazy loading and slide preloading.",
-//       },
-//     },
-//   },
-// };
+export const CustomRendererExample: Story = {
+  args: {
+    slides: productSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    renderSlide: (slide, index, isActive) => (
+      <div
+        className={`transition-all duration-300 ${isActive ? "scale-105" : "scale-95 opacity-70"}`}
+      >
+        {slide.content}
+        <div className="mt-2 text-center">
+          <span
+            className={`rounded px-2 py-1 text-xs ${isActive ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-600"}`}
+          >
+            Slide {index + 1}
+          </span>
+        </div>
+      </div>
+    ),
+    renderNavigation: ({
+      canGoNext,
+      canGoPrevious,
+      goToNext,
+      goToPrevious,
+    }) => (
+      <div className="flex gap-2">
+        <button
+          onClick={goToPrevious}
+          disabled={!canGoPrevious}
+          className="rounded-full bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
+        >
+          ← Prev
+        </button>
+        <button
+          onClick={goToNext}
+          disabled={!canGoNext}
+          className="rounded-full bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
+        >
+          Next →
+        </button>
+      </div>
+    ),
+    options: {
+      slidesToShow: 1,
+      infinite: false,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Custom slide and navigation renderers for complete control over appearance.",
+      },
+    },
+  },
+};
 
-// // ==== ERROR STATES & EDGE CASES ====
+// ==== PERFORMANCE & OPTIMIZATION ====
 
-// export const LoadingState: Story = {
-//   args: {
-//     slides: [],
-//     size: "lg",
-//     loading: true,
-//     loadingComponent: (
-//       <div className="flex h-64 flex-col items-center justify-center space-y-4">
-//         <div className="size-12 animate-spin rounded-full border-4 border-blue-200 border-t-blue-500" />
-//         <p className="text-gray-600">Loading amazing content...</p>
-//       </div>
-//     ),
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story: "Custom loading state with spinner and message.",
-//       },
-//     },
-//   },
-// };
+export const LazyLoadingCarousel: Story = {
+  args: {
+    slides: [...imageSlides, ...imageSlides, ...imageSlides], // Triple slides for demo
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    options: {
+      lazyLoad: true,
+      preloadSlides: 2,
+      infinite: true,
+      autoPlay: true,
+      autoPlayInterval: 3000,
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Optimized for performance with lazy loading and slide preloading.",
+      },
+    },
+  },
+};
 
-// export const ErrorState: Story = {
-//   args: {
-//     slides: [],
-//     size: "lg",
-//     error: "Failed to load carousel content",
-//     errorComponent: (
-//       <div className="flex h-64 flex-col items-center justify-center space-y-4 text-red-500">
-//         <svg className="size-12" fill="currentColor" viewBox="0 0 24 24">
-//           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-//         </svg>
-//         <div className="text-center">
-//           <p className="font-semibold">Oops! Something went wrong</p>
-//           <p className="mt-1 text-sm text-gray-500">
-//             Please try refreshing the page
-//           </p>
-//         </div>
-//       </div>
-//     ),
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story: "Custom error state with icon and helpful message.",
-//       },
-//     },
-//   },
-// };
+// ==== INTERACTIVE EXAMPLES ====
+
+export const WithCallbacks: Story = {
+  args: {
+    slides: imageSlides,
+    size: "lg",
+    navigation: true,
+    indicators: true,
+    onSlideChange: (index, slide) => {
+      console.log("Slide changed:", { index, slide });
+    },
+    onSlideClick: (slide, index) => {
+      console.log("Slide clicked:", { slide, index });
+      alert(
+        `Clicked slide ${index + 1}: ${slide.metadata?.category || "Unknown"}`
+      );
+    },
+  },
+};
+
+// ==== ERROR STATES & EDGE CASES ====
+
+export const SingleSlide: Story = {
+  args: {
+    slides: [imageSlides[0]],
+    size: "lg",
+    navigation: true,
+    indicators: true,
+  },
+};
+
+export const LoadingState: Story = {
+  args: {
+    slides: [],
+    size: "lg",
+    loading: true,
+    loadingComponent: (
+      <div className="flex h-64 flex-col items-center justify-center space-y-4">
+        <div className="size-12 animate-spin rounded-full border-4 border-blue-200 border-t-blue-500" />
+        <p className="text-gray-600">Loading amazing content...</p>
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Custom loading state with spinner and message.",
+      },
+    },
+  },
+};
+
+export const EmptySlides: Story = {
+  args: {
+    slides: [],
+    size: "lg",
+    navigation: true,
+    indicators: true,
+  },
+};
+
+export const ErrorState: Story = {
+  args: {
+    slides: [],
+    size: "lg",
+    error: "Failed to load carousel content",
+    errorComponent: (
+      <div className="flex h-64 flex-col items-center justify-center space-y-4 text-red-500">
+        <CircleX className="size-12 text-current" viewBox="0 0 24 24" />
+        <div className="text-center">
+          <p className="font-semibold">Oops! Something went wrong</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Please try refreshing the page
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Custom error state with icon and helpful message.",
+      },
+    },
+  },
+};
