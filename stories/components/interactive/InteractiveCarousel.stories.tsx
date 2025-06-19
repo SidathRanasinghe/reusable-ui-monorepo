@@ -7,6 +7,8 @@ import {
   type CarouselSlide,
 } from "@core/interactive-carousel";
 
+import { getAssetPath, ASSET_PATHS } from "../../common/assetUtils";
+
 // Mock slide content components
 const ImageSlide = ({
   src,
@@ -68,7 +70,7 @@ const imageSlides: CarouselSlide[] = [
     id: 1,
     content: (
       <ImageSlide
-        src="/images/moutain_landscape.jpeg"
+        src={getAssetPath(ASSET_PATHS.MOUNTAIN_LANDSCAPE)}
         alt="Mountain landscape"
         title="Mountain Adventure"
       />
@@ -79,7 +81,7 @@ const imageSlides: CarouselSlide[] = [
     id: 2,
     content: (
       <ImageSlide
-        src="/images/forest_path.jpeg"
+        src={getAssetPath(ASSET_PATHS.FOREST_PATH)}
         alt="Forest path"
         title="Forest Trail"
       />
@@ -90,7 +92,7 @@ const imageSlides: CarouselSlide[] = [
     id: 3,
     content: (
       <ImageSlide
-        src="/images/ocean_waves.jpg"
+        src={getAssetPath(ASSET_PATHS.OCEAN_WAVES)}
         alt="Ocean waves"
         title="Ocean Waves"
       />
@@ -101,7 +103,7 @@ const imageSlides: CarouselSlide[] = [
     id: 4,
     content: (
       <ImageSlide
-        src="/images/desert_sunset.jpg"
+        src={getAssetPath(ASSET_PATHS.DESERT_SUNSET)}
         alt="Desert sunset"
         title="Desert Sunset"
       />
@@ -150,7 +152,7 @@ const productSlides: CarouselSlide[] = [
       <ProductCard
         name="Wireless Headphones"
         price="$199.99"
-        image="/images/wireless_headphones.jpeg"
+        image={getAssetPath(ASSET_PATHS.WIRELESS_HEADPHONES)}
       />
     ),
   },
@@ -160,7 +162,7 @@ const productSlides: CarouselSlide[] = [
       <ProductCard
         name="Smart Watch"
         price="$299.99"
-        image="/images/smart_watch.jpeg"
+        image={getAssetPath(ASSET_PATHS.SMART_WATCH)}
       />
     ),
   },
@@ -170,7 +172,7 @@ const productSlides: CarouselSlide[] = [
       <ProductCard
         name="Laptop Stand"
         price="$79.99"
-        image="/images/computer_mouse.jpeg"
+        image={getAssetPath(ASSET_PATHS.COMPUTER_MOUSE)}
       />
     ),
   },
@@ -180,7 +182,7 @@ const productSlides: CarouselSlide[] = [
       <ProductCard
         name="Desk Organizer"
         price="$49.99"
-        image="/images/desk_organizer.jpeg"
+        image={getAssetPath(ASSET_PATHS.DESK_ORGANIZER)}
       />
     ),
   },
@@ -193,7 +195,7 @@ const videoSlides: CarouselSlide[] = [
       <div className="relative h-64 w-full overflow-hidden rounded-lg bg-black">
         <video
           className="size-full object-cover"
-          poster="/images/netflix_thumbnail.jpeg"
+          poster={getAssetPath(ASSET_PATHS.NETFLIX_THUMBNAIL)}
           controls
         >
           <source
@@ -238,7 +240,7 @@ const testimonialSlides: CarouselSlide[] = [
           </blockquote>
           <div className="mt-6 flex items-center">
             <img
-              src="/images/sarah_johnson.jpeg"
+              src={getAssetPath(ASSET_PATHS.SARAH_JOHNSON)}
               alt="Sarah Johnson"
               className="mr-4 size-12 rounded-full"
             />
@@ -263,7 +265,7 @@ const testimonialSlides: CarouselSlide[] = [
           </blockquote>
           <div className="mt-6 flex items-center">
             <img
-              src="/images/mike_chen.jpeg"
+              src={getAssetPath(ASSET_PATHS.MIKE_CHEN)}
               alt="Mike Chen"
               className="mr-4 size-12 rounded-full"
             />

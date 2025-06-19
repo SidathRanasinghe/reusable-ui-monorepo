@@ -15,6 +15,7 @@ declare module "*.module.css" {
 }
 
 // Asset type declarations
+declare const __ASSET_BASE_PATH__: string;
 declare module "*.png" {
   const content: string;
   export default content;

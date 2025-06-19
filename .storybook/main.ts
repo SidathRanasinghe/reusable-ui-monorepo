@@ -32,10 +32,8 @@ const config: StorybookConfig = {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
+  staticDirs: ["../assets"], // To handle static assets
   viteFinal: async (config, { configType }) => {
-    // Configure static assets directory
-    config.publicDir = join(__dirname, "../assets");
-
     // eslint-disable-next-line no-console
     console.info(
       "===================================================\nENVIORNMENT: %s\n===================================================",
@@ -90,12 +88,6 @@ const config: StorybookConfig = {
         // Main package alias
         "@": join(__dirname, "../packages/ui-core/src"),
 
-        // Assets alias
-        "@assets":
-          configType === "PRODUCTION"
-            ? "/reusable-ui-monorepo/assets"
-            : join(__dirname, "../assets"),
-
         // Component-specific aliases
         "@ui": join(__dirname, "../packages/ui-core/src/components/ui"),
         "@core": join(__dirname, "../packages/ui-core/src/components/core"),
@@ -106,16 +98,17 @@ const config: StorybookConfig = {
       },
     };
 
-    // Configs for proper asset handling in production
+    // Custom plugin to handle asset paths in production
     if (configType === "PRODUCTION") {
-      // Public assets are copied
-      config.assetsInclude = [
-        "**/*.png",
-        "**/*.jpg",
-        "**/*.jpeg",
-        "**/*.gif",
-        "**/*.svg",
-      ];
+      config.define = {
+        ...config.define,
+        __ASSET_BASE_PATH__: '"/reusable-ui-monorepo"',
+      };
+    } else {
+      config.define = {
+        ...config.define,
+        __ASSET_BASE_PATH__: '""',
+      };
     }
 
     return config;
