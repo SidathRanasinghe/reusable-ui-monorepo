@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import NetworkGraph from "../../packages/ui-core/src/components/core/network-graph/NetworkGraph";
-import {
-  Node,
-  Link,
-} from "../../packages/ui-core/src/components/core/network-graph/types";
+import NetworkGraph from "@core/network-graph/NetworkGraph";
+import { Node, Link } from "@core/network-graph/types";
 
 const meta: Meta<typeof NetworkGraph> = {
   title: "Data Visualization/Network Graph",

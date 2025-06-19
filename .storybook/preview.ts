@@ -13,6 +13,16 @@ const preview: Preview = {
     docs: {
       toc: true,
     },
+    options: {
+      storySort: {
+        order: [
+          // Must match with story 'title' or located 'folder name'
+          "Data Visualization",
+          "Interactive",
+        ],
+        method: "alphabetical",
+      },
+    },
     viewport: {
       viewports: {
         mobile: { name: "Mobile", styles: { width: "375px", height: "667px" } },

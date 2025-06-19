@@ -5,7 +5,7 @@ import { CircleX } from "lucide-react";
 import {
   InteractiveCarousel,
   type CarouselSlide,
-} from "../../packages/ui-core/src/components/core/interactive-carousel";
+} from "@core/interactive-carousel";
 
 // Mock slide content components
 const ImageSlide = ({

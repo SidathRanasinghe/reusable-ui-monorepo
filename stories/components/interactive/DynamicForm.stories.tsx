@@ -2,12 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import React from "react";
 
-import {
-  DynamicForm,
-  DynamicFormRef,
-} from "../../packages/ui-core/src/components/core/dynamic-form/DynamicForm";
-import { Input } from "../../packages/ui-core/src/components/ui/input";
-import { Button } from "../../packages/ui-core/src/components/ui/button";
+import { DynamicForm, DynamicFormRef } from "@core/dynamic-form/DynamicForm";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const meta: Meta<typeof DynamicForm> = {
   title: "Interactive/Dynamic Form",
