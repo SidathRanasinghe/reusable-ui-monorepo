@@ -137,8 +137,6 @@ export const CarouselNavigation: React.FC<CarouselNavigationProps> = ({
   const defaultPreviousIcon = <ChevronLeft className={iconSize} />;
   const defaultNextIcon = <ChevronRight className={iconSize} />;
 
-  useEffect(() => console.log("currentSlide : ", currentSlide), [currentSlide]);
-
   const previousButton = showPrevious && (
     <CarouselPrevious
       className={cn(

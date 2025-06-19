@@ -190,6 +190,7 @@ export const InteractiveCarousel = forwardRef<
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
     // Refs
     const autoPlayRef = useRef<NodeJS.Timeout>();
@@ -249,7 +250,7 @@ export const InteractiveCarousel = forwardRef<
       centerMode = false,
       variableWidth = false,
       transition = "slide",
-      transitionDuration = 100,
+      transitionDuration,
       easing = "ease-in-out",
       keyboard = true,
       focusOnSelect = true,
@@ -261,7 +262,7 @@ export const InteractiveCarousel = forwardRef<
 
     // Auto-play functionality
     const startAutoPlay = useCallback(() => {
-      if (!autoPlay || !api || isPlaying) return;
+      if (!autoPlay || !api || isPlaying || !isInitialized) return;
 
       setIsPlaying(true);
       onAutoPlayStart?.();
@@ -302,6 +303,7 @@ export const InteractiveCarousel = forwardRef<
       canGoPrevious,
       slides.length,
       isPlaying,
+      isInitialized,
       onAutoPlayStart,
     ]);
 
@@ -317,7 +319,8 @@ export const InteractiveCarousel = forwardRef<
     // Navigation functions
     const goToSlide = useCallback(
       async (index: number) => {
-        if (!api || index === currentSlide || isTransitioning) return;
+        if (!api || index === currentSlide || isTransitioning || !isInitialized)
+          return;
 
         const canProceed = await onBeforeSlideChange?.(currentSlide, index);
         if (canProceed === false) return;
@@ -325,18 +328,18 @@ export const InteractiveCarousel = forwardRef<
         setIsTransitioning(true);
         api.scrollTo(index);
       },
-      [api, currentSlide, isTransitioning, onBeforeSlideChange]
+      [api, currentSlide, isTransitioning, isInitialized, onBeforeSlideChange]
     );
 
     const goToNext = useCallback(() => {
-      if (!api || isTransitioning) return;
+      if (!api || isTransitioning || !isInitialized) return;
       api.scrollNext();
-    }, [api, isTransitioning]);
+    }, [api, isTransitioning, isInitialized]);
 
     const goToPrevious = useCallback(() => {
-      if (!api || isTransitioning) return;
+      if (!api || isTransitioning || !isInitialized) return;
       api.scrollPrev();
-    }, [api, isTransitioning]);
+    }, [api, isTransitioning, isInitialized]);
 
     // Expose API through ref
     useImperativeHandle(
@@ -364,17 +367,29 @@ export const InteractiveCarousel = forwardRef<
     );
 
     const updateCarouselState = useCallback(() => {
+      if (!api) return;
+
       const current = api.selectedScrollSnap();
+
+      // Check if the API is properly initialized
+      if (current === undefined || isNaN(current)) {
+        console.warn("Carousel API not fully initialized yet");
+        return;
+      }
+
       const previous = api.canScrollPrev();
       const next = api.canScrollNext();
-
-      console.log("current >>>>> ", current);
 
       setPreviousSlide(currentSlide);
       setCurrentSlide(current);
       setCanGoPrevious(previous);
       setCanGoNext(next);
       setIsTransitioning(false);
+
+      // Mark as initialized only after we get valid data
+      if (!isInitialized) {
+        setIsInitialized(true);
+      }
 
       // Announce slide change for screen readers
       if (announceSlideChanges && announcementRef.current) {
@@ -396,6 +411,7 @@ export const InteractiveCarousel = forwardRef<
       announceSlideChanges,
       api,
       currentSlide,
+      isInitialized,
       onAfterSlideChange,
       onSlideChange,
       previousSlide,
@@ -406,21 +422,48 @@ export const InteractiveCarousel = forwardRef<
     useEffect(() => {
       if (!api) return;
 
-      // Set initial state
-      updateCarouselState();
+      // Initialize state immediately
+      const initializeCarousel = () => {
+        const current = api.selectedScrollSnap();
+
+        // Only proceed if we get a valid index
+        if (current !== undefined && !isNaN(current)) {
+          updateCarouselState();
+        } else {
+          // If not ready, try again after a short delay
+          const timeoutId = setTimeout(() => {
+            updateCarouselState();
+          }, 50);
+
+          return () => clearTimeout(timeoutId);
+        }
+      };
+
+      // Try to initialize immediately
+      initializeCarousel();
 
       // Listen for slide changes
       api.on("select", updateCarouselState);
 
+      // Also listen for init event if available
+      if (api.on && typeof api.on === "function") {
+        api.on("init", updateCarouselState);
+        api.on("reInit", updateCarouselState);
+      }
+
       return () => {
         api.off("select", updateCarouselState);
+        if (api.off && typeof api.off === "function") {
+          api.off("init", updateCarouselState);
+          api.off("reInit", updateCarouselState);
+        }
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [api, slides, announceSlideChanges]);
+    }, [api]);
 
     // Auto-play management
     useEffect(() => {
-      if (autoPlay && !isPlaying) {
+      if (autoPlay && !isPlaying && isInitialized) {
         startAutoPlay();
       } else if (!autoPlay && isPlaying) {
         stopAutoPlay();
@@ -430,11 +473,11 @@ export const InteractiveCarousel = forwardRef<
         stopAutoPlay();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [autoPlay, isPlaying]);
+    }, [autoPlay, isPlaying, isInitialized]);
 
     // Keyboard navigation
     useEffect(() => {
-      if (!keyboard) return;
+      if (!keyboard || !isInitialized) return;
 
       const handleKeyDown = (event: KeyboardEvent) => {
         if (!containerRef.current?.contains(event.target as Node)) return;
@@ -471,7 +514,7 @@ export const InteractiveCarousel = forwardRef<
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [keyboard, slides.length, isPlaying]);
+    }, [keyboard, slides.length, isPlaying, isInitialized]);
 
     // Event handlers
     const handleMouseEnter = useCallback(() => {
@@ -491,12 +534,12 @@ export const InteractiveCarousel = forwardRef<
     const handleFocus = useCallback(
       (index: number) => {
         setIsFocused(true);
-        if (focusOnSelect) {
+        if (focusOnSelect && isInitialized) {
           goToSlide(index);
         }
         onFocus?.(index);
       },
-      [focusOnSelect, goToSlide, onFocus]
+      [focusOnSelect, goToSlide, onFocus, isInitialized]
     );
 
     const handleBlur = useCallback(
@@ -609,7 +652,7 @@ export const InteractiveCarousel = forwardRef<
             watchDrag: draggable,
             slidesToScroll,
             startIndex: options.startIndex || 0,
-            duration: transitionDuration,
+            ...(transitionDuration ? { duration: transitionDuration } : {}),
           }}
         >
           {/* Top indicators */}
@@ -666,7 +709,11 @@ export const InteractiveCarousel = forwardRef<
               className={cn("flex-1", contentClassName)}
               style={{
                 touchAction: draggable ? "pan-y pinch-zoom" : "none",
-                transition: `transform ${transitionDuration}ms ${easing}`,
+                ...(transitionDuration
+                  ? {
+                      transition: `transform ${transitionDuration}ms ${easing}`,
+                    }
+                  : {}),
               }}
               onDragStart={onDragStart}
               onDragEnd={onDragEnd}
@@ -675,7 +722,9 @@ export const InteractiveCarousel = forwardRef<
             >
               {slides.map((slide, index) => (
                 <CarouselItem
-                  key={slide.id || generateUniqueId()}
+                  key={
+                    slide.id ? `slide_${index}_${slide.id}` : generateUniqueId()
+                  }
                   className={cn(
                     slidesToShow > 1 && `basis-1/${slidesToShow}`,
                     centerMode && "transform transition-transform duration-300",
