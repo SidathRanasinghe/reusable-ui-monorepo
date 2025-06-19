@@ -91,7 +91,10 @@ const config: StorybookConfig = {
         "@": join(__dirname, "../packages/ui-core/src"),
 
         // Assets alias
-        "@assets": join(__dirname, "../assets"),
+        "@assets":
+          configType === "PRODUCTION"
+            ? "/reusable-ui-monorepo/assets"
+            : join(__dirname, "../assets"),
 
         // Component-specific aliases
         "@ui": join(__dirname, "../packages/ui-core/src/components/ui"),
@@ -102,6 +105,18 @@ const config: StorybookConfig = {
         "@lib": join(__dirname, "../packages/ui-core/src/lib"),
       },
     };
+
+    // Configs for proper asset handling in production
+    if (configType === "PRODUCTION") {
+      // Public assets are copied
+      config.assetsInclude = [
+        "**/*.png",
+        "**/*.jpg",
+        "**/*.jpeg",
+        "**/*.gif",
+        "**/*.svg",
+      ];
+    }
 
     return config;
   },
