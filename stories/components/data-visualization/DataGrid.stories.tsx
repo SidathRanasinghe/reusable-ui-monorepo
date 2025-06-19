@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Download, Edit, Eye, Plus, Settings, Trash2 } from "lucide-react";
 
-import DataGrid from "../../packages/ui-core/src/components/core/data-grid-table/DataGrid";
+import DataGrid from "@core/data-grid-table/DataGrid";
 import {
   DataGridColumn,
   DataGridProps,
   GenericDataGridRow,
-} from "../../packages/ui-core/src/components/core/data-grid-table/types";
-import { generateSampleData } from "../../packages/ui-core/src/components/core/data-grid-table/utils";
+} from "@core/data-grid-table/types";
+import { generateSampleData } from "@core/data-grid-table/utils";
 
 // Sample data interfaces
 interface EmployeeData extends GenericDataGridRow {

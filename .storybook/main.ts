@@ -32,7 +32,14 @@ const config: StorybookConfig = {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
+  staticDirs: ["../assets"], // To handle static assets
   viteFinal: async (config, { configType }) => {
+    // eslint-disable-next-line no-console
+    console.info(
+      "===================================================\nENVIORNMENT: %s\n===================================================",
+      configType
+    );
+
     // Configure for GitHub Pages deployment
     if (configType === "PRODUCTION") {
       config.base = "/reusable-ui-monorepo/";
@@ -78,9 +85,31 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
+        // Main package alias
         "@": join(__dirname, "../packages/ui-core/src"),
+
+        // Component-specific aliases
+        "@ui": join(__dirname, "../packages/ui-core/src/components/ui"),
+        "@core": join(__dirname, "../packages/ui-core/src/components/core"),
+        "@common": join(__dirname, "../packages/ui-core/src/components/common"),
+
+        // Utils and lib
+        "@lib": join(__dirname, "../packages/ui-core/src/lib"),
       },
     };
+
+    // Custom plugin to handle asset paths in production
+    if (configType === "PRODUCTION") {
+      config.define = {
+        ...config.define,
+        __ASSET_BASE_PATH__: '"/reusable-ui-monorepo"',
+      };
+    } else {
+      config.define = {
+        ...config.define,
+        __ASSET_BASE_PATH__: '""',
+      };
+    }
 
     return config;
   },

@@ -279,6 +279,7 @@ const OrgChart: React.FC<OrgChartProps> = ({
       });
 
     return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
