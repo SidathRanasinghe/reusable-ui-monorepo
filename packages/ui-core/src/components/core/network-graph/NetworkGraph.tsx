@@ -9,7 +9,7 @@ import { useZoom } from "./hooks/useZoom";
 import { useSimulation } from "./hooks/useSimulation";
 import { useDragBehavior } from "./hooks/useDragBehavior";
 import { useHoverEffects } from "./hooks/useHoverEffects";
-import Minimap from "./Minimap";
+import { Minimap } from "./Minimap";
 
 const NetworkGraph: React.FC<NetworkGraphProps> = ({
   nodes: initialNodes,
@@ -205,7 +205,7 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
     if (fitOnMount && fitGraphToContainer) {
       const timer = setTimeout(() => {
         fitGraphToContainer();
-      }, 100);
+      }, 1500);
       return () => clearTimeout(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

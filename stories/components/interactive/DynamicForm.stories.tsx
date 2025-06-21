@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import React from "react";
 
-import { DynamicForm, DynamicFormRef } from "@core/dynamic-form/DynamicForm";
+import { DynamicForm, type DynamicFormRef } from "@core/dynamic-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 

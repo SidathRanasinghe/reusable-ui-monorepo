@@ -10,7 +10,7 @@ import { cn } from "../../../lib/utils";
 
 import { DataGridPaginationProps } from "./types";
 
-const DataGridPagination: React.FC<DataGridPaginationProps> = ({
+export const DataGridPagination: React.FC<DataGridPaginationProps> = ({
   config,
   total,
   onChange,
@@ -308,5 +308,3 @@ const DataGridPagination: React.FC<DataGridPaginationProps> = ({
     </div>
   );
 };
-
-export default DataGridPagination;

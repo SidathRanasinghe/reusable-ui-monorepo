@@ -10,7 +10,9 @@ import {
   SortConfig,
 } from "./types";
 
-function DataGridHeader<T extends GenericDataGridRow = GenericDataGridRow>({
+export const DataGridHeader = <
+  T extends GenericDataGridRow = GenericDataGridRow,
+>({
   columns,
   sort,
   onSortChange,
@@ -20,7 +22,7 @@ function DataGridHeader<T extends GenericDataGridRow = GenericDataGridRow>({
   isIndeterminate = false,
   classNames,
   styles,
-}: DataGridHeaderProps<T>): JSX.Element {
+}: DataGridHeaderProps<T>) => {
   const handleSort = useCallback(
     (key: string, dataType: string = "string") => {
       if (!onSortChange) return;
@@ -171,6 +173,4 @@ function DataGridHeader<T extends GenericDataGridRow = GenericDataGridRow>({
       </tr>
     </thead>
   );
-}
-
-export default DataGridHeader;
+};

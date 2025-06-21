@@ -38,10 +38,7 @@ export const useNetworkGraph = ({
   }, [containerRef, width, height, aspectRatio]);
 
   // Debounced version for resize events
-  const debouncedUpdateDimensions = useCallback(
-    debounce(updateDimensions, 150),
-    [updateDimensions]
-  );
+  const debouncedUpdateDimensions = debounce(updateDimensions, 150);
 
   useEffect(() => {
     updateDimensions();

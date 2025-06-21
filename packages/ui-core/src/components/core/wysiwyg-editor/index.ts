@@ -1,10 +1,7 @@
-import defaultStyles from "./styles.module.css";
-
 export { default as WysiwygEditor } from "./WysiwygEditor";
 export { CharacterCounter } from "./CharacterCounter";
 export { ErrorMessage } from "./ErrorMessage";
 export { HelperText } from "./HelperText";
-export { defaultStyles };
 export type {
   WysiwygEditorProps,
   EditorRef,
