@@ -1,0 +1,268 @@
+.wysiwyg-editor-wrapper {
+  --wysiwyg-border-color: #e6e9ee;
+  --wysiwyg-border-radius: 8px;
+  --wysiwyg-toolbar-bg: #f8f9fa;
+  --wysiwyg-editor-bg: #ffffff;
+  --wysiwyg-primary: #3b82f6;
+  --wysiwyg-font-family: inherit;
+  --wysiwyg-font-size: 14px;
+  --wysiwyg-min-height: 200px;
+}
+
+.wysiwyg-editor-container {
+  position: relative;
+  border-radius: var(--wysiwyg-border-radius);
+  transition:
+    box-shadow 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+}
+
+.wysiwyg-editor-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.wysiwyg-editor-container.wysiwyg-editor-error {
+  --wysiwyg-border-color: #ef4444;
+}
+
+.wysiwyg-editor-container.wysiwyg-editor-error:focus-within {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.wysiwyg-editor-container.wysiwyg-editor-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.wysiwyg-editor-container.wysiwyg-editor-readonly {
+  --wysiwyg-toolbar-bg: #f3f4f6;
+}
+
+/* Toolbar Styles */
+.wysiwyg-editor-container :global(.ql-toolbar) {
+  border: 1px solid var(--wysiwyg-border-color) !important;
+  border-bottom: none !important;
+  border-radius: var(--wysiwyg-border-radius) var(--wysiwyg-border-radius) 0 0 !important;
+  background-color: var(--wysiwyg-toolbar-bg) !important;
+  padding: 8px 12px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-formats) {
+  margin-right: 12px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-formats:last-child) {
+  margin-right: 0 !important;
+}
+
+/* Container Styles */
+.wysiwyg-editor-container :global(.ql-container) {
+  border: 1px solid var(--wysiwyg-border-color) !important;
+  border-radius: 0 0 var(--wysiwyg-border-radius) var(--wysiwyg-border-radius) !important;
+  font-family: var(--wysiwyg-font-family) !important;
+  font-size: var(--wysiwyg-font-size) !important;
+  background-color: var(--wysiwyg-editor-bg) !important;
+}
+
+/* Editor Content Styles */
+.wysiwyg-editor-container :global(.ql-editor) {
+  min-height: var(--wysiwyg-min-height) !important;
+  max-height: var(--wysiwyg-max-height, none) !important;
+  padding: 16px !important;
+  line-height: 1.6 !important;
+  color: #374151 !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor.ql-blank::before) {
+  color: #9ca3af !important;
+  font-style: normal !important;
+  left: 16px !important;
+}
+
+/* Button Styles */
+.wysiwyg-editor-container :global(.ql-toolbar button) {
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease-in-out !important;
+  margin: 0 2px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar button:hover) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar button.ql-active) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar button svg) {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Dropdown Styles */
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker) {
+  color: #374151 !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-label) {
+  border-radius: 6px !important;
+  padding: 6px 8px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-label:hover) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+}
+
+.wysiwyg-editor-container
+  :global(.ql-toolbar .ql-picker.ql-expanded .ql-picker-label) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+}
+
+/* Dropdown Options */
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-options) {
+  background-color: white !important;
+  border: 1px solid var(--wysiwyg-border-color) !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  padding: 4px !important;
+  margin-top: 4px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-item) {
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  transition: background-color 0.2s ease-in-out !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-item:hover) {
+  background-color: #f3f4f6 !important;
+}
+
+.wysiwyg-editor-container :global(.ql-toolbar .ql-picker-item.ql-selected) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+}
+
+/* Link and Image Tooltips */
+.wysiwyg-editor-container :global(.ql-tooltip) {
+  background-color: white !important;
+  border: 1px solid var(--wysiwyg-border-color) !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  padding: 8px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-tooltip input) {
+  border: 1px solid var(--wysiwyg-border-color) !important;
+  border-radius: 4px !important;
+  padding: 6px 8px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-tooltip a) {
+  background-color: var(--wysiwyg-primary) !important;
+  color: white !important;
+  border-radius: 4px !important;
+  padding: 6px 12px !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out !important;
+}
+
+.wysiwyg-editor-container :global(.ql-tooltip a:hover) {
+  background-color: rgba(59, 130, 246, 0.8) !important;
+}
+
+/* Content Formatting */
+.wysiwyg-editor-container :global(.ql-editor h1) {
+  font-size: 2em !important;
+  font-weight: 700 !important;
+  margin-bottom: 16px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor h2) {
+  font-size: 1.5em !important;
+  font-weight: 600 !important;
+  margin-bottom: 14px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor h3) {
+  font-size: 1.25em !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor blockquote) {
+  border-left: 4px solid var(--wysiwyg-primary) !important;
+  padding-left: 16px !important;
+  margin: 16px 0 !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor pre) {
+  background-color: #f3f4f6 !important;
+  border-radius: 6px !important;
+  padding: 12px !important;
+  margin: 16px 0 !important;
+  overflow-x: auto !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor ul),
+.wysiwyg-editor-container :global(.ql-editor ol) {
+  margin: 12px 0 !important;
+  padding-left: 24px !important;
+}
+
+.wysiwyg-editor-container :global(.ql-editor li) {
+  margin-bottom: 4px !important;
+}
+
+/* Footer Styles */
+.wysiwyg-editor-footer {
+  margin-top: 8px;
+}
+
+/* No Toolbar Styles */
+.wysiwyg-editor-container :global(.ql-container.ql-snow) {
+  border-radius: var(--wysiwyg-border-radius) !important;
+}
+
+/* Focus States */
+.wysiwyg-editor-container :global(.ql-editor:focus) {
+  outline: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .wysiwyg-editor-container :global(.ql-toolbar) {
+    padding: 6px 8px !important;
+  }
+
+  .wysiwyg-editor-container :global(.ql-toolbar button) {
+    width: 28px !important;
+    height: 28px !important;
+    margin: 0 1px !important;
+  }
+
+  .wysiwyg-editor-container :global(.ql-toolbar .ql-formats) {
+    margin-right: 8px !important;
+  }
+
+  .wysiwyg-editor-container :global(.ql-editor) {
+    padding: 12px !important;
+  }
+}
