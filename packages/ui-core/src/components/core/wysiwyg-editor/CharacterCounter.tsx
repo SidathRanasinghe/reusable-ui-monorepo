@@ -1,4 +1,3 @@
-// packages/ui-core/src/components/core/wysiwyg-editor/CharacterCounter.tsx
 import React from "react";
 
 import { cn } from "../../../lib/utils";

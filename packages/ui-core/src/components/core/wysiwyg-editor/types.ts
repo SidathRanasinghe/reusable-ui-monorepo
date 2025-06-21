@@ -1,7 +1,6 @@
 import { RangeStatic, Sources } from "quill";
 import { UnprivilegedEditor } from "react-quill";
 
-// packages/ui-core/src/components/core/wysiwyg-editor/types.ts
 export type ToolbarGroup =
   | "text-formatting"
   | "lists"

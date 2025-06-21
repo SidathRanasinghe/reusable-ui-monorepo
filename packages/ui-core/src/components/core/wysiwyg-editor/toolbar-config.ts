@@ -1,4 +1,3 @@
-// packages/ui-core/src/components/core/wysiwyg-editor/toolbar-config.ts
 import { ToolbarGroup } from "./types";
 
 export const TOOLBAR_GROUPS: Record<ToolbarGroup, any[]> = {

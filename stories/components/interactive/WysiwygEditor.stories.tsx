@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 
 import {
   WysiwygEditor,
@@ -133,16 +133,33 @@ type Story = StoryObj<typeof WysiwygEditor>;
 const ControlledEditor = (args: any) => {
   const [value, setValue] = useState(args.value || "");
 
+  // Memoize callbacks to prevent unnecessary re-renders
+  const handleChange = useCallback((newValue: string) => {
+    setValue(newValue);
+    action("onChange")(newValue);
+  }, []);
+
+  const handleTextChange = useCallback(
+    (delta: any, oldDelta: any, source: string) => {
+      action("onTextChange")(delta, oldDelta, source);
+    },
+    []
+  );
+
+  const handleSelectionChange = useCallback(
+    (selection: any, source: any, editor: any) => {
+      action("onSelectionChange")(selection, source, editor);
+    },
+    []
+  );
+
   return (
     <WysiwygEditor
       {...args}
       value={value}
-      onChange={newValue => {
-        setValue(newValue);
-        action("onChange")(newValue);
-      }}
-      onTextChange={action("onTextChange")}
-      onSelectionChange={action("onSelectionChange")}
+      onChange={handleChange}
+      onTextChange={handleTextChange}
+      onSelectionChange={handleSelectionChange}
     />
   );
 };
