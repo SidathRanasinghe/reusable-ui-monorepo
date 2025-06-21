@@ -17,6 +17,7 @@ export const getAssetPath = (path: string): string => {
 
 // Predefined asset paths for common images
 export const ASSET_PATHS = {
+  // Interactive Carousel Story
   MOUNTAIN_LANDSCAPE: "/images/moutain_landscape.jpeg",
   DESERT_SUNSET: "/images/desert_sunset.jpg",
   FOREST_PATH: "/images/forest_path.jpeg",
@@ -28,4 +29,16 @@ export const ASSET_PATHS = {
   NETFLIX_THUMBNAIL: "/images/netflix_thumbnail.jpeg",
   MIKE_CHEN: "/images/mike_chen.jpeg",
   SARAH_JOHNSON: "/images/sarah_johnson.jpeg",
+
+  // Network Graph Story
+  ART_AVATAR_JOHN: "images/art_avatar_john.svg",
+  ART_AVATAR_BELL: "images/art_avatar_bell.svg",
+  ART_AVATAR_BOB: "images/art_avatar_bob.svg",
+  ART_AVATAR_JANE: "images/art_avatar_jane.svg",
+  ART_AVATAR_JINE: "images/art_avatar_jine.svg",
+  ART_AVATAR_KAMALA: "images/art_avatar_kamala.svg",
+  ART_AVATAR_LUNA: "images/art_avatar_luna.svg",
+  ART_AVATAR_MIKE: "images/art_avatar_mike.svg",
+  ART_AVATAR_RON: "images/art_avatar_ron.svg",
+  ART_AVATAR_SARATH: "images/art_avatar_sarath.svg",
 } as const;

@@ -6,7 +6,6 @@ import React, {
   useMemo,
   forwardRef,
   useImperativeHandle,
-  CSSProperties,
 } from "react";
 
 import { cn, generateUniqueId } from "../../../lib/utils";
@@ -24,10 +23,10 @@ import {
   CarouselSlide,
   NavigationConfig,
   IndicatorConfig,
-  CarouselSize,
   CarouselRef,
   CarouselTheme,
 } from "./types";
+import { applyTheme, getResponsiveStyles, getSizeStyles } from "./utils";
 
 // Default configurations
 const DEFAULT_NAVIGATION_CONFIG: NavigationConfig = {
@@ -77,61 +76,6 @@ const DEFAULT_THEME: CarouselTheme = {
     md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
     lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
   },
-};
-
-// Utility functions
-const getSizeStyles = (size: CarouselSize): string => {
-  const sizeMap: Record<CarouselSize, string> = {
-    xs: "max-w-xs",
-    sm: "max-w-sm",
-    md: "max-w-2xl",
-    lg: "max-w-4xl",
-    xl: "max-w-6xl",
-    "2xl": "max-w-7xl",
-    full: "max-w-full",
-    auto: "max-w-none",
-  };
-  return sizeMap[size] || sizeMap.lg;
-};
-
-const getResponsiveStyles = (
-  options: InteractiveCarouselProps["options"]
-): CSSProperties => {
-  const responsive = options?.responsive || [];
-  const styles: CSSProperties = {};
-
-  responsive.forEach(breakpoint => {
-    // This would typically be handled by CSS media queries
-    // For now, we'll apply base styles
-    if (breakpoint.settings.slidesToShow) {
-      (styles as any)["--slides-to-show"] =
-        breakpoint.settings.slidesToShow.toString();
-    }
-  });
-
-  return styles;
-};
-
-const applyTheme = (theme: CarouselTheme): CSSProperties => {
-  const cssVariables: CSSProperties = {};
-
-  if (theme.colors) {
-    Object.entries(theme.colors).forEach(([key, value]) => {
-      if (value) {
-        cssVariables[`--carousel-${key}` as any] = value;
-      }
-    });
-  }
-
-  if (theme.spacing) {
-    Object.entries(theme.spacing).forEach(([key, value]) => {
-      if (value) {
-        cssVariables[`--carousel-${key}` as any] = value;
-      }
-    });
-  }
-
-  return cssVariables;
 };
 
 export const InteractiveCarousel = forwardRef<
@@ -379,10 +323,7 @@ export const InteractiveCarousel = forwardRef<
       const current = api.selectedScrollSnap();
 
       // Check if the API is properly initialized
-      if (current === undefined || isNaN(current)) {
-        console.warn("Carousel API not fully initialized yet");
-        return;
-      }
+      if (current === undefined || isNaN(current)) return;
 
       const previous = api.canScrollPrev();
       const next = api.canScrollNext();

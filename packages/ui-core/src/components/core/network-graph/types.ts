@@ -1,3 +1,5 @@
+import { ZoomBehavior } from "d3-zoom";
+
 export type NodeShape =
   | "circle"
   | "square"
@@ -210,4 +212,47 @@ export interface UseHoverEffectsReturn {
   handleNodeHover: (event: Event, node: Node | null) => void;
   handleLinkHover: (event: Event, link: Link | null) => void;
   handleCanvasClick: (event: Event) => void;
+}
+
+export interface MinimapProps {
+  svgRef: React.RefObject<SVGSVGElement>;
+  zoomBehaviorRef: React.MutableRefObject<
+    ZoomBehavior<SVGSVGElement, unknown> | undefined
+  >;
+
+  // Customization props
+  width?: number;
+  height?: number;
+  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  theme?: "light" | "dark";
+  className?: string;
+
+  // Control props
+  isCollapsible?: boolean;
+  isResizable?: boolean;
+  defaultCollapsed?: boolean;
+  showControls?: boolean;
+
+  // Style customization
+  backgroundColor?: string;
+  borderColor?: string;
+  viewportColor?: string;
+  opacity?: number;
+
+  // Size constraints
+  minWidth?: number;
+  maxWidth?: number;
+  minHeight?: number;
+  maxHeight?: number;
+
+  // Callbacks
+  onToggle?: (collapsed: boolean) => void;
+  onResize?: (width: number, height: number) => void;
+}
+
+export interface MinimapDimensions {
+  width: number;
+  height: number;
+  headerHeight: number;
+  padding: number;
 }

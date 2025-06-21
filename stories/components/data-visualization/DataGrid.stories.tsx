@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Download, Edit, Eye, Plus, Settings, Trash2 } from "lucide-react";
 
-import DataGrid from "@core/data-grid-table/DataGrid";
 import {
-  DataGridColumn,
-  DataGridProps,
-  GenericDataGridRow,
-} from "@core/data-grid-table/types";
+  DataGrid,
+  type DataGridColumn,
+  type DataGridProps,
+  type GenericDataGridRow,
+} from "@core/data-grid-table";
 import { generateSampleData } from "@core/data-grid-table/utils";
 
 // Sample data interfaces
