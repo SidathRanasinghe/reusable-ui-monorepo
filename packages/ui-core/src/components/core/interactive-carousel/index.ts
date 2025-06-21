@@ -11,3 +11,4 @@ export type {
   IndicatorVariant,
   CarouselSize,
 } from "./types";
+export { getSizeStyles, getResponsiveStyles, applyTheme } from "./utils";

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import NetworkGraph from "@core/network-graph/NetworkGraph";
-import { Node, Link } from "@core/network-graph/types";
+import { NetworkGraph } from "@core/network-graph";
+
+import { ASSET_PATHS, getAssetPath } from "../../common/assetUtils";
+import { generateLinks, generateNodes } from "../../common/utils";
 
 const meta: Meta<typeof NetworkGraph> = {
   title: "Data Visualization/Network Graph",
@@ -35,6 +37,7 @@ Supports both light and dark themes with automatic styling adjustments.
       },
     },
   },
+  tags: ["autodocs"],
   argTypes: {
     // Data
     nodes: {
@@ -130,52 +133,6 @@ Supports both light and dark themes with automatic styling adjustments.
 
 export default meta;
 type Story = StoryObj<typeof NetworkGraph>;
-
-// Sample data generators
-const generateNodes = (count: number): Node[] => {
-  const shapes: Node["shape"][] = [
-    "circle",
-    "square",
-    "rectangle",
-    "rounded-square",
-    "rounded-rectangle",
-  ];
-  return Array.from({ length: count }, (_, i) => ({
-    id: `node-${i}`,
-    name: `Node ${i + 1}`,
-    label: `Label for node ${i + 1}`,
-    shape: shapes[i % shapes.length],
-    style: {
-      backgroundColor: `hsl(${(i * 137.5) % 360}, 70%, 60%)`,
-      borderColor: `hsl(${(i * 137.5) % 360}, 70%, 40%)`,
-      borderWidth: 2,
-    },
-  }));
-};
-
-const generateLinks = (nodeCount: number): Link[] => {
-  const links: Link[] = [];
-  for (let i = 0; i < nodeCount - 1; i++) {
-    links.push({
-      source: `node-${i}`,
-      target: `node-${i + 1}`,
-      label: `Link ${i + 1}`,
-    });
-  }
-  // Add some random connections
-  for (let i = 0; i < Math.min(nodeCount / 2, 10); i++) {
-    const source = Math.floor(Math.random() * nodeCount);
-    const target = Math.floor(Math.random() * nodeCount);
-    if (source !== target) {
-      links.push({
-        source: `node-${source}`,
-        target: `node-${target}`,
-        style: { linkType: "dashed", linkColor: "#ff6b6b" },
-      });
-    }
-  }
-  return links;
-};
 
 // Basic Examples
 export const Default: Story = {
@@ -417,59 +374,6 @@ export const StaticLayout: Story = {
 };
 
 // Real-world Examples
-export const OrganizationChart: Story = {
-  name: "Organization Chart",
-  args: {
-    nodes: [
-      {
-        id: "ceo",
-        name: "CEO",
-        label: "Chief Executive Officer\nJohn Smith",
-        shape: "rectangle",
-        style: { backgroundColor: "#2c3e50", width: 150, height: 60 },
-      },
-      {
-        id: "cto",
-        name: "CTO",
-        label: "Chief Technology Officer\nJane Doe",
-        shape: "rectangle",
-        style: { backgroundColor: "#3498db", width: 140, height: 60 },
-      },
-      {
-        id: "cfo",
-        name: "CFO",
-        label: "Chief Financial Officer\nBob Johnson",
-        shape: "rectangle",
-        style: { backgroundColor: "#e74c3c", width: 140, height: 60 },
-      },
-      {
-        id: "dev1",
-        name: "Dev 1",
-        label: "Senior Developer\nAlice Brown",
-        shape: "rounded-rectangle",
-        style: { backgroundColor: "#95a5a6", width: 120, height: 50 },
-      },
-      {
-        id: "dev2",
-        name: "Dev 2",
-        label: "Junior Developer\nCharlie Wilson",
-        shape: "rounded-rectangle",
-        style: { backgroundColor: "#95a5a6", width: 120, height: 50 },
-      },
-    ],
-    links: [
-      { source: "ceo", target: "cto", label: "reports to" },
-      { source: "ceo", target: "cfo", label: "reports to" },
-      { source: "cto", target: "dev1", label: "manages" },
-      { source: "cto", target: "dev2", label: "manages" },
-    ],
-    simulationConfig: {
-      linkDistance: 150,
-      chargeStrength: -2000,
-    },
-  },
-};
-
 export const NetworkTopology: Story = {
   name: "Network Topology",
   args: {
@@ -541,72 +445,6 @@ export const NetworkTopology: Story = {
   },
 };
 
-export const FlowChart: Story = {
-  name: "Process Flow Chart",
-  args: {
-    nodes: [
-      {
-        id: "start",
-        name: "Start",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60", borderColor: "#229954" },
-      },
-      {
-        id: "process1",
-        name: "Process",
-        label: "Validate Input",
-        shape: "rectangle",
-        style: { backgroundColor: "#3498db", borderColor: "#2980b9" },
-      },
-      {
-        id: "decision",
-        name: "Decision",
-        label: "Valid?",
-        shape: "square",
-        style: { backgroundColor: "#f39c12", borderColor: "#e67e22" },
-      },
-      {
-        id: "process2",
-        name: "Process",
-        label: "Save Data",
-        shape: "rectangle",
-        style: { backgroundColor: "#3498db", borderColor: "#2980b9" },
-      },
-      {
-        id: "error",
-        name: "Error",
-        label: "Show Error",
-        shape: "rectangle",
-        style: { backgroundColor: "#e74c3c", borderColor: "#c0392b" },
-      },
-      {
-        id: "end",
-        name: "End",
-        shape: "circle",
-        style: { backgroundColor: "#95a5a6", borderColor: "#7f8c8d" },
-      },
-    ],
-    links: [
-      { source: "start", target: "process1" },
-      { source: "process1", target: "decision" },
-      {
-        source: "decision",
-        target: "process2",
-        label: "Yes",
-        style: { linkColor: "#27ae60" },
-      },
-      {
-        source: "decision",
-        target: "error",
-        label: "No",
-        style: { linkColor: "#e74c3c" },
-      },
-      { source: "process2", target: "end" },
-      { source: "error", target: "end" },
-    ],
-  },
-};
-
 // Advanced Features
 export const WithImages: Story = {
   name: "Nodes with Images",
@@ -617,12 +455,12 @@ export const WithImages: Story = {
         name: "User",
         label: "John Doe\nAdmin",
         shape: "circle",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_JOHN),
         style: {
           backgroundColor: "#3498db",
           padding: 5,
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
         },
       },
       {
@@ -630,31 +468,140 @@ export const WithImages: Story = {
         name: "User",
         label: "Jane Smith\nManager",
         shape: "circle",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=jane",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_JANE),
         style: {
           backgroundColor: "#e74c3c",
           padding: 5,
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
         },
       },
       {
         id: "3",
         name: "User",
         label: "Bob Wilson\nDeveloper",
-        shape: "circle",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=bob",
+        shape: "square",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_BOB),
         style: {
           backgroundColor: "#27ae60",
           padding: 5,
-          width: 80,
-          height: 80,
+          width: 120,
+          height: 120,
+        },
+      },
+      {
+        id: "4",
+        name: "User",
+        label: "Kamala Devi\nDesigner",
+        shape: "circle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_KAMALA),
+        style: {
+          backgroundColor: "#9b59b6",
+          padding: 5,
+          width: 60,
+          height: 60,
+        },
+      },
+      {
+        id: "5",
+        name: "User",
+        label: "Luna Park\nAnalyst",
+        shape: "rounded-square",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_LUNA),
+        style: {
+          backgroundColor: "#1abc9c",
+          padding: 5,
+          width: 100,
+          height: 100,
+        },
+      },
+      {
+        id: "6",
+        name: "User",
+        label: "Mike Ross\nEngineer",
+        shape: "circle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_MIKE),
+        style: {
+          backgroundColor: "#f39c12",
+          padding: 5,
+          width: 60,
+          height: 60,
+        },
+      },
+      {
+        id: "7",
+        name: "User",
+        label: "Bell Nash\nArchitect",
+        shape: "rectangle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_BELL),
+        style: {
+          backgroundColor: "#34495e",
+          padding: 5,
+          width: 120,
+          height: 60,
+        },
+      },
+      {
+        id: "8",
+        name: "User",
+        label: "Ron Clark\nSupport",
+        shape: "circle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_RON),
+        style: {
+          backgroundColor: "#2ecc71",
+          padding: 5,
+          width: 60,
+          height: 60,
+        },
+      },
+      {
+        id: "9",
+        name: "User",
+        label: "Sarath Silva\nIntern",
+        shape: "rounded-rectangle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_SARATH),
+        style: {
+          backgroundColor: "#c0392b",
+          padding: 5,
+          width: 140,
+          height: 100,
+        },
+      },
+      {
+        id: "10",
+        name: "User",
+        label: "Jine Lee\nHR",
+        shape: "circle",
+        image: getAssetPath(ASSET_PATHS.ART_AVATAR_JINE),
+        style: {
+          backgroundColor: "#7f8c8d",
+          padding: 5,
+          width: 60,
+          height: 60,
         },
       },
     ],
     links: [
       { source: "1", target: "2", label: "supervises" },
+      { source: "1", target: "6", label: "supervises" },
       { source: "2", target: "3", label: "manages" },
+      { source: "2", target: "7", label: "manages" },
+      { source: "3", target: "4", label: "collaborates" },
+      { source: "3", target: "8", label: "collaborates" },
+      { source: "4", target: "5", label: "reviews" },
+      { source: "4", target: "9", label: "reviews" },
+      { source: "5", target: "6", label: "supports" },
+      { source: "5", target: "10", label: "supports" },
+      { source: "6", target: "7", label: "coordinates" },
+      { source: "6", target: "3", label: "coordinates" },
+      { source: "7", target: "8", label: "assists" },
+      { source: "7", target: "4", label: "assists" },
+      { source: "8", target: "9", label: "mentors" },
+      { source: "8", target: "5", label: "mentors" },
+      { source: "9", target: "10", label: "reports to" },
+      { source: "9", target: "6", label: "reports to" },
+      { source: "10", target: "2", label: "reports to" },
+      { source: "10", target: "1", label: "reports to" },
     ],
   },
 };
@@ -709,127 +656,6 @@ export const CustomSimulation: Story = {
         story:
           "Custom simulation with increased link distance and modified forces for a more spread out layout.",
       },
-    },
-  },
-};
-
-export const MessageFlow: Story = {
-  name: "Message Flow Diagram",
-  args: {
-    nodes: [
-      {
-        id: "client",
-        name: "Client",
-        label: "Web Browser",
-        shape: "rectangle",
-        style: { backgroundColor: "#3498db" },
-      },
-      {
-        id: "api",
-        name: "API",
-        label: "REST API\nGateway",
-        shape: "rectangle",
-        style: { backgroundColor: "#f39c12" },
-      },
-      {
-        id: "auth",
-        name: "Auth",
-        label: "Auth Service",
-        shape: "rectangle",
-        style: { backgroundColor: "#e74c3c" },
-      },
-      {
-        id: "db",
-        name: "Database",
-        label: "PostgreSQL",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60" },
-      },
-    ],
-    links: [
-      {
-        source: "client",
-        target: "api",
-        label: "HTTP Request",
-        message: "1. POST /api/login",
-        style: { linkColor: "#3498db" },
-      },
-      {
-        source: "api",
-        target: "auth",
-        label: "Validate",
-        message: "2. Check credentials",
-        style: { linkColor: "#f39c12" },
-      },
-      {
-        source: "auth",
-        target: "db",
-        label: "Query",
-        message: "3. SELECT user",
-        style: { linkColor: "#e74c3c" },
-      },
-    ],
-  },
-};
-
-export const HierarchicalTree: Story = {
-  name: "Hierarchical Tree Structure",
-  args: {
-    nodes: [
-      {
-        id: "root",
-        name: "Root",
-        shape: "circle",
-        style: { backgroundColor: "#2c3e50" },
-      },
-      {
-        id: "branch1",
-        name: "Branch 1",
-        shape: "square",
-        style: { backgroundColor: "#3498db" },
-      },
-      {
-        id: "branch2",
-        name: "Branch 2",
-        shape: "square",
-        style: { backgroundColor: "#3498db" },
-      },
-      {
-        id: "leaf1",
-        name: "Leaf 1",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60" },
-      },
-      {
-        id: "leaf2",
-        name: "Leaf 2",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60" },
-      },
-      {
-        id: "leaf3",
-        name: "Leaf 3",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60" },
-      },
-      {
-        id: "leaf4",
-        name: "Leaf 4",
-        shape: "circle",
-        style: { backgroundColor: "#27ae60" },
-      },
-    ],
-    links: [
-      { source: "root", target: "branch1" },
-      { source: "root", target: "branch2" },
-      { source: "branch1", target: "leaf1" },
-      { source: "branch1", target: "leaf2" },
-      { source: "branch2", target: "leaf3" },
-      { source: "branch2", target: "leaf4" },
-    ],
-    simulationConfig: {
-      linkDistance: 100,
-      chargeStrength: -2000,
     },
   },
 };

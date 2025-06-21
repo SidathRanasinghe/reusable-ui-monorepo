@@ -3,14 +3,16 @@ import { Node, NodeShape, Dimensions } from "./types";
 /**
  * Default dimensions for different node shapes
  */
-const DEFAULT_DIMENSIONS: Record<NodeShape, { width: number; height: number }> =
-  {
-    circle: { width: 40, height: 40 },
-    square: { width: 60, height: 60 },
-    rectangle: { width: 120, height: 60 },
-    "rounded-square": { width: 60, height: 60 },
-    "rounded-rectangle": { width: 120, height: 60 },
-  };
+export const DEFAULT_DIMENSIONS: Record<
+  NodeShape,
+  { width: number; height: number }
+> = {
+  circle: { width: 40, height: 40 },
+  square: { width: 60, height: 60 },
+  rectangle: { width: 120, height: 60 },
+  "rounded-square": { width: 60, height: 60 },
+  "rounded-rectangle": { width: 120, height: 60 },
+};
 
 /**
  * Get default size for a node shape

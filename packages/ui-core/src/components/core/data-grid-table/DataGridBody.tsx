@@ -28,7 +28,9 @@ const EmptyState: React.FC<{ config?: any }> = ({ config }) => (
   </div>
 );
 
-function DataGridBody<T extends GenericDataGridRow = GenericDataGridRow>({
+export const DataGridBody = <
+  T extends GenericDataGridRow = GenericDataGridRow,
+>({
   dataSource,
   columns,
   loading = false,
@@ -44,7 +46,7 @@ function DataGridBody<T extends GenericDataGridRow = GenericDataGridRow>({
   striped = false,
   hoverable = true,
   size = "medium",
-}: DataGridBodyProps<T>): JSX.Element {
+}: DataGridBodyProps<T>) => {
   const isLoading = typeof loading === "boolean" ? loading : loading?.loading;
   const visibleColumns = columns.filter(col => col.visible !== false);
 
@@ -240,6 +242,4 @@ function DataGridBody<T extends GenericDataGridRow = GenericDataGridRow>({
       })}
     </tbody>
   );
-}
-
-export default DataGridBody;
+};

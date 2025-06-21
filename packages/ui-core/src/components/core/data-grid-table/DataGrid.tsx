@@ -11,9 +11,9 @@ import { Download, FileText } from "lucide-react";
 
 import { cn } from "../../../lib/utils";
 
-import DataGridBody from "./DataGridBody";
-import DataGridHeader from "./DataGridHeader";
-import DataGridPagination from "./DataGridPagination";
+import { DataGridBody } from "./DataGridBody";
+import { DataGridHeader } from "./DataGridHeader";
+import { DataGridPagination } from "./DataGridPagination";
 import { generateMockData } from "./utils";
 import {
   DataGridProps,

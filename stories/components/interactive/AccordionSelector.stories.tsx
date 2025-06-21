@@ -13,10 +13,11 @@ import {
   BarChart,
 } from "lucide-react";
 
-import AccordionSelector, {
-  SelectionState,
-  AccordionGroup,
-} from "@core/accordion-selector/AccordionSelector";
+import {
+  AccordionSelector,
+  type SelectionState,
+  type AccordionGroup,
+} from "@core/accordion-selector";
 
 const meta: Meta<typeof AccordionSelector> = {
   title: "Interactive/Accordion Selector",
@@ -325,7 +326,7 @@ export const EnterpriseConfig: Story = {
     clearSelectionOnGroupChange: false,
     ariaLabel: "Enterprise Configuration Settings",
     styles: {
-      wrapper: "max-w-2xl border border-gray-300 rounded-lg shadow-sm",
+      wrapper: "border border-gray-300 rounded-lg shadow-sm",
       accordionTrigger: "px-4 py-3 hover:bg-gray-50",
       checkboxItem: "px-3 py-2 hover:bg-gray-50 rounded",
     },

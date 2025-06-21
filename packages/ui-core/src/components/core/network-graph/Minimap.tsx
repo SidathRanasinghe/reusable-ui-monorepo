@@ -1,52 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { ZoomBehavior } from "d3-zoom";
 import { ChevronDown, ChevronUp, Maximize2, Minimize2 } from "lucide-react";
 
-export interface MinimapProps {
-  svgRef: React.RefObject<SVGSVGElement>;
-  zoomBehaviorRef: React.MutableRefObject<
-    ZoomBehavior<SVGSVGElement, unknown> | undefined
-  >;
+import { MinimapDimensions, MinimapProps } from "./types";
 
-  // Customization props
-  width?: number;
-  height?: number;
-  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-  theme?: "light" | "dark";
-  className?: string;
-
-  // Control props
-  isCollapsible?: boolean;
-  isResizable?: boolean;
-  defaultCollapsed?: boolean;
-  showControls?: boolean;
-
-  // Style customization
-  backgroundColor?: string;
-  borderColor?: string;
-  viewportColor?: string;
-  opacity?: number;
-
-  // Size constraints
-  minWidth?: number;
-  maxWidth?: number;
-  minHeight?: number;
-  maxHeight?: number;
-
-  // Callbacks
-  onToggle?: (collapsed: boolean) => void;
-  onResize?: (width: number, height: number) => void;
-}
-
-interface MinimapDimensions {
-  width: number;
-  height: number;
-  headerHeight: number;
-  padding: number;
-}
-
-const Minimap: React.FC<MinimapProps> = ({
+export const Minimap: React.FC<MinimapProps> = ({
   svgRef,
   zoomBehaviorRef,
   width = 200,
@@ -440,5 +398,3 @@ const Minimap: React.FC<MinimapProps> = ({
     </div>
   );
 };
-
-export default Minimap;
