@@ -1,551 +1,392 @@
-import React, { CSSProperties, useLayoutEffect, useRef } from "react";
+import React, {
+  useLayoutEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import ReactDOMServer from "react-dom/server";
 import { OrgChart } from "d3-org-chart";
 import * as d3 from "d3";
+
+import { cn } from "../../../lib/utils";
+
 import {
-  Building2,
-  ChevronDown,
-  ChevronUp,
-  Coins,
-  Factory,
-  GraduationCap,
-  Landmark,
-  LandPlot,
-  Umbrella,
-  User,
-} from "lucide-react";
-import ReactCountryFlag from "react-country-flag";
+  OrganizationalChartProps,
+  OrganizationalChartRef,
+  OrgChartNodeData,
+  RenderExpandButtonProps,
+  RenderNodeProps,
+  RenderPaginationButtonProps,
+} from "./types";
 
-import { cn, blendWithWhite } from "../../../lib/utils";
-
-const CustomExpandButton = (node: any) => {
-  return (
-    <>
-      {node && (
-        <div className="boder-solid text-primary-marine-2 mx-auto flex size-[30px] cursor-pointer items-center justify-center rounded-full border-2 border-[#d3d3d3] bg-white backdrop-blur-sm">
-          <span>{node.data._directSubordinates}</span>
-          <span>
-            {node.children ? (
-              <ChevronUp className="size-3" />
-            ) : (
-              <ChevronDown className="size-3" />
-            )}
-          </span>
-        </div>
-      )}
-    </>
-  );
-};
-
-type EntityTypes =
-  | "Bank"
-  | "FinancialCompany"
-  | "InsuranceCompany"
-  | "IndustrialCompany"
-  | "MutualAndPensionFund"
-  | "FoundationResearchInstitute"
-  | "PublicAuthorities"
-  | "Person";
-
-interface CustomNodeContentProps {
-  children?: any[];
-  data: {
-    entity_type: EntityTypes;
-    address?: {
-      street_address?: string;
-      city?: string;
-      country?: string;
-      zip?: string;
-    };
-    indirect_percentage?: number;
-    is_domiciled_in?: string;
-    name: string;
-    is_ibo?: boolean;
-    is_ubo?: boolean;
-    level: number;
-    line_color?: string;
-    direct_percentage?: number;
-  };
-}
-
-interface ProgressTickStyles {
-  filled?: CSSProperties;
-  empty?: CSSProperties;
-}
-interface ValueDisplayStyles {
-  container?: CSSProperties;
-  value?: CSSProperties;
-}
-
-interface CustomProgressStyles {
-  container?: CSSProperties;
-  progressContainer?: CSSProperties;
-  ticks?: ProgressTickStyles;
-  valueDisplay?: ValueDisplayStyles;
-}
-
-interface CustomProgressProps {
-  value: number;
-  showValue?: boolean;
-  maxValue?: number;
-  numberOfTicks?: number;
-  tickWidth?: number;
-  tickHeight?: number;
-  tickGap?: number;
-  tickRoundCorners?: boolean;
-  customStyles?: CustomProgressStyles;
-  valuePosition?: "left" | "right" | "top" | "bottom" | "hidden";
-  className?: string;
-  valueRenderer?: (value: number) => string;
-}
-
-function CustomProgress({
-  value,
-  showValue,
-  maxValue = 100,
-  numberOfTicks = 10,
-  tickWidth = 2,
-  tickHeight = 8,
-  tickGap = 2,
-  tickRoundCorners,
-  customStyles,
-  valuePosition = "left",
-  className,
-  valueRenderer,
-}: CustomProgressProps) {
-  const normalizedValue = Math.min(Math.max(value, 0), maxValue);
-  const filledTicks = Math.round((normalizedValue / maxValue) * numberOfTicks);
-
-  const ValueDisplay = () => (
-    <div
-      style={customStyles?.valueDisplay?.container}
-      className={cn("!text-caption-xxs font-medium", {
-        "mr-2": valuePosition === "left",
-        "ml-2": valuePosition === "right",
-        "mb-2": valuePosition === "top",
-        "mt-2": valuePosition === "bottom",
-      })}
-    >
-      <span
-        className="text-[12.5px] font-semibold text-[#3A3D42]"
-        style={customStyles?.valueDisplay?.value}
-      >
-        {valueRenderer ? valueRenderer(value) : value?.toFixed(2) || value}
-      </span>
-    </div>
-  );
-
-  const svgWidth = numberOfTicks * tickWidth + (numberOfTicks - 1) * tickGap;
-  const svgHeight = tickHeight;
-
-  return (
-    <div
-      className={cn(
-        "flex items-center gap-2",
-        {
-          "flex-row": valuePosition === "left" || valuePosition === "right",
-          "flex-col": valuePosition === "top" || valuePosition === "bottom",
-        },
-        className
-      )}
-      style={customStyles?.container}
-    >
-      {!!showValue && (valuePosition === "left" || valuePosition === "top") && (
-        <ValueDisplay />
-      )}
-
-      <svg
-        width={svgWidth}
-        height={svgHeight}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={customStyles?.progressContainer}
-      >
-        {Array.from({ length: numberOfTicks }).map((_, index) => {
-          const isFilled = index <= filledTicks && normalizedValue !== 0;
-          const xPosition = index * (tickWidth + tickGap);
-          return (
-            <rect
-              key={index}
-              x={xPosition}
-              y={0}
-              width={tickWidth}
-              height={tickHeight}
-              rx={
-                tickRoundCorners ? Math.min(tickWidth / 2, tickHeight / 2) : 0
-              }
-              fill={isFilled ? "currentColor" : "currentColor"}
-              fillOpacity={isFilled ? 1 : 0.2}
-              style={
-                isFilled
-                  ? customStyles?.ticks?.filled
-                  : customStyles?.ticks?.empty
-              }
-            />
-          );
-        })}
-      </svg>
-
-      {!!showValue &&
-        (valuePosition === "right" || valuePosition === "bottom") && (
-          <ValueDisplay />
-        )}
-    </div>
-  );
-}
-
-const CustomNodeContent: React.FC<CustomNodeContentProps> = props => {
-  const {
-    entity_type,
-    address,
-    indirect_percentage,
-    is_domiciled_in,
-    name,
-    is_ibo,
-    is_ubo,
-    level,
-    line_color,
-    direct_percentage,
-  } = props.data || {};
-
-  const nodeRef = useRef<HTMLDivElement>(null);
-  const defaultColor = "#9da49a";
-
-  const customRound = (value: number): number => {
-    const rounded = Math.round(value * 10) / 10;
-    return Number.isInteger(rounded) ? Math.trunc(rounded) : rounded;
-  };
-
-  const { street_address, city, country, zip } = address || {};
-
-  const valueRenderer = (value: number) => {
-    const num = typeof value === "string" ? parseFloat(value) : value;
-    if (Number.isInteger(num)) {
-      return `${num.toString()}%`;
-    }
-    const rounded = Math.round(num * 10) / 10;
-    if (Number.isInteger(rounded)) {
-      return `${rounded.toString()}%`;
-    }
-    return `${rounded.toFixed(1)}%`;
-  };
-
-  const EntityIcon: React.FC<{ type: EntityTypes }> = ({ type }) => {
-    const iconClass = "stroke-white stroke-[1.5] size-6";
-    const backgroundClass =
-      "flex items-center justify-center rounded bg-[rgba(30,32,35,1)] p-2";
-
-    const getIcon = () => {
-      switch (type) {
-        case "Bank":
-          return <Landmark className={iconClass} />;
-        case "FinancialCompany":
-          return <Building2 className={iconClass} />;
-        case "InsuranceCompany":
-          return <Umbrella className={iconClass} />;
-        case "IndustrialCompany":
-          return <Factory className={iconClass} />;
-        case "MutualAndPensionFund":
-          return <Coins className={iconClass} />;
-        case "FoundationResearchInstitute":
-          return <GraduationCap className={iconClass} />;
-        case "PublicAuthorities":
-          return <LandPlot className={iconClass} />;
-        case "Person":
-          return <User className={iconClass} />;
-        default:
-          return null;
-      }
-    };
-
-    return <div className={backgroundClass}>{getIcon()}</div>;
-  };
-
-  return (
-    <div className="relative">
-      {/* Arrow */}
-      {props?.children?.length && (
-        <div
-          className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full border-x-8 border-t-[14px] border-x-transparent !bg-white"
-          style={{
-            borderTopColor: line_color || defaultColor,
-            marginTop: "-20px",
-          }}
-        />
-      )}
-
-      {/* Percentage Label */}
-      {direct_percentage && level !== 0 && (
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full rounded-2xl px-3 py-1 font-hankenGrotesk text-xs font-semibold"
-          style={{
-            marginBottom: "-43px",
-            minHeight: "17px",
-            minWidth: "23px",
-            background: line_color
-              ? blendWithWhite(`${line_color}26`)
-              : "#ebecea",
-            border: `1px solid ${line_color || defaultColor}`,
-            color: line_color || "#767f72",
-          }}
-        >
-          {customRound(direct_percentage)}%
-        </div>
-      )}
-
-      {/* Main Node Content */}
-      <div
-        className="group relative overflow-visible rounded-[2px] bg-white shadow-sm dark:bg-gray-950"
-        style={{
-          boxShadow: "0px 24px 64px 16px rgba(16, 24, 40, 0.14)",
-          backdropFilter: "blur(20px)",
-        }}
-        ref={nodeRef}
-      >
-        <div className="absolute left-[60%] top-[105%] z-50 hidden w-full rounded p-2 backdrop-blur-lg group-hover:block">
-          <p className="mb-1">Address</p>
-          <div className="text-xs">
-            {street_address && `${street_address},`} {city && `${city},`}{" "}
-            {zip && `${zip},`} {country && country}
-          </div>
-        </div>
-
-        <div
-          className={cn(
-            "flex",
-            level === 0 ? "h-[64px] items-center" : "h-[100px] items-start",
-            "w-[280px] gap-3 overflow-hidden bg-white p-3 shadow-sm"
-          )}
-        >
-          <EntityIcon type={entity_type} />
-          <div
-            className={cn("flex-1", {
-              "flex size-full items-center justify-between": level === 0,
-            })}
-          >
-            <div
-              className={cn("flex items-start justify-between", {
-                "w-full": level === 0,
-              })}
-            >
-              <h3 className="font-medium text-gray-900">{name}</h3>
-              {is_domiciled_in && (
-                <ReactCountryFlag
-                  countryCode={is_domiciled_in}
-                  svg
-                  className="!h-6 !w-8"
-                  style={{ boxShadow: "0px 0px 4px 0px #00000040 !important" }}
-                />
-              )}
-            </div>
-            <div
-              className={cn(
-                "mt-2 flex h-full",
-                level === 0 ? "items-center" : "items-start",
-                "justify-between overflow-hidden"
-              )}
-            >
-              {level !== 0 && (
-                <div className="">
-                  <p className="text-xs text-gray-500">Indirect Ownership</p>
-                  <div className="mt-1">
-                    <CustomProgress
-                      value={indirect_percentage || 0}
-                      numberOfTicks={20}
-                      tickWidth={1}
-                      showValue={true}
-                      valuePosition="right"
-                      valueRenderer={valueRenderer}
-                      customStyles={{
-                        ticks: {
-                          filled: {
-                            fill: "#2445FF",
-                          },
-                        },
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-              {(is_ibo || is_ubo) && (
-                <div className="flex h-full flex-col items-end justify-center gap-y-1">
-                  {is_ibo && (
-                    <div className="min-w-full rounded-lg bg-gray-200 px-2.5 py-0.5 text-center font-hankenGrotesk text-sub-caption-xs font-semibold text-gray-900">
-                      IBO
-                    </div>
-                  )}
-                  {is_ubo && (
-                    <div className="min-w-full rounded-lg bg-gray-600 px-2.5 py-0.5 text-center font-hankenGrotesk text-sub-caption-xs font-semibold text-gray-200">
-                      UBO
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+// Default render functions
+const DefaultNodeRenderer: React.FC<RenderNodeProps> = ({ data }) => (
+  <div className="flex h-16 w-48 items-center justify-center rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-sm">
+    <div className="text-center">
+      <div className="text-sm font-medium text-gray-900">
+        {data.name || data.title || data.id}
       </div>
+      {data.subtitle && (
+        <div className="text-xs text-gray-500">{data.subtitle}</div>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
-export type OrgChartNodeData = {
-  _pagingStep?: number;
-  _directSubordinatesPaging?: number;
-  [key: string]: any;
-};
+const DefaultExpandButtonRenderer: React.FC<RenderExpandButtonProps> = ({
+  isExpanded,
+  childrenCount,
+}) => (
+  <div className="flex size-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50">
+    {isExpanded ? "−" : "+"}
+  </div>
+);
 
-type CustomPaginationBtnProps = {
-  node: any;
-  index: number;
-  nodes: any;
-  state: any;
-};
+const DefaultPaginationButtonRenderer: React.FC<
+  RenderPaginationButtonProps
+> = ({ remainingNodes }) => (
+  <div className="flex items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50">
+    Show {remainingNodes} more
+  </div>
+);
 
-const CustomPaginationBtn = ({
-  node,
-  index,
-  nodes,
-  state,
-}: CustomPaginationBtnProps) => {
-  const parentData = node.parent?.data as OrgChartNodeData | undefined;
+// Main component
+export const OrganizationalChart = forwardRef<
+  OrganizationalChartRef,
+  OrganizationalChartProps
+>(
+  (
+    {
+      data,
+      className,
+      style,
+      layout = "top",
+      nodeWidth = 200,
+      nodeHeight = 80,
+      margins = { top: 20, right: 20, bottom: 20, left: 20 },
+      childrenMargin = 80,
+      siblingsMargin = 80,
+      neighbourMargin = 80,
+      compact = false,
+      compactMarginBetween = 20,
+      enablePagination = true,
+      pagingStep = 5,
+      minPagingVisibleNodes = 5,
+      renderNode = props => <DefaultNodeRenderer {...props} />,
+      renderExpandButton = props => <DefaultExpandButtonRenderer {...props} />,
+      renderPaginationButton = props => (
+        <DefaultPaginationButtonRenderer {...props} />
+      ),
+      linkStyle = { stroke: "#94a3b8", strokeWidth: 2 },
+      onNodeClick,
+      onNodeDoubleClick,
+      onNodeMouseEnter,
+      onNodeMouseLeave,
+      onChartRender,
+      onChartUpdate,
+      initialExpandedNodes = [],
+      expandAll = false,
+      enableZoom = true,
+      enableDrag = true,
+      fitOnRender = true,
+      animationDuration = 350,
+      ariaLabel = "Organizational Chart",
+      ariaDescription,
+    },
+    ref
+  ) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const chartRef = useRef<any>(null);
 
-  const step = node.parent ? state.pagingStep(node.parent) : 0;
-  const currentIndex = parentData?._pagingStep ?? 0;
-  const diff = (parentData?._directSubordinatesPaging ?? 0) - currentIndex;
-  const min = Math.min(diff, step);
+    // Prepare chart data with required properties
+    const prepareChartData = (rawData: OrgChartNodeData[]) => {
+      return rawData.map(item => ({
+        ...item,
+        _pagingStep: 0,
+        _highlighted: false,
+        _upToTheRootHighlighted: false,
+        _expanded: expandAll || initialExpandedNodes.includes(item.id),
+      }));
+    };
 
-  return (
-    <div className="flex h-[100px] flex-col">
-      <button
-        type="button"
-        className="boder-solid my-auto flex size-fit cursor-pointer items-center justify-center rounded-full bg-white px-2 py-1 font-hankenGrotesk text-cadet-gray-8.5"
-        style={{
-          boxShadow: "0px 12px 32px 8px rgba(16, 24, 40, 0.14)",
-          backdropFilter: "blur(20px)",
-        }}
-      >
-        Show next {min} nodes
-      </button>
-    </div>
-  );
-};
+    // Update chart dimensions to fit container
+    const updateChartDimensions = () => {
+      if (!chartRef.current || !containerRef.current) return;
 
-type OrganizationalChartProps = {
-  data: any[];
-  isFullView?: boolean;
-  className?: string;
-};
+      const container = containerRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const width = containerRect.width || container.clientWidth;
+      const height = containerRect.height || container.clientHeight;
 
-const OrganizationalChart = ({
-  data,
-  isFullView,
-  className,
-}: OrganizationalChartProps) => {
-  const d3Container = useRef<any>(null);
-  const chartRef = useRef<any>(null);
+      if (width > 0 && height > 0) {
+        chartRef.current.svgWidth(width).svgHeight(height).render();
 
-  const prepareChartData = (rawData: any[]) => {
-    return rawData.map(item => ({
-      ...item,
-      _pagingStep: 0,
-      _highlighted: false,
-      _upToTheRootHighlighted: false,
-      _expanded: false,
-    }));
-  };
-
-  const updateChartDimensions = () => {
-    if (!chartRef.current || !d3Container.current) return;
-    const containerWidth = d3Container.current.clientWidth;
-    const containerHeight = d3Container.current.clientHeight;
-    chartRef.current
-      .svgWidth(containerWidth)
-      .svgHeight(containerHeight)
-      .render()
-      .fit();
-  };
-
-  useLayoutEffect(() => {
-    if (!d3Container.current || !data?.length) return;
-
-    d3Container.current.innerHTML = "";
-
-    try {
-      const preparedData = prepareChartData(data);
-      const chart = new OrgChart();
-      chartRef.current = chart;
-
-      chart
-        .container(d3Container.current)
-        .data(preparedData)
-        .nodeWidth(() => 280)
-        .nodeHeight(() => 100)
-        .compact(false)
-        .pagingStep(() => 5)
-        .minPagingVisibleNodes(() => 5)
-        .pagingButton((node, index, nodes, state) =>
-          ReactDOMServer.renderToStaticMarkup(
-            <CustomPaginationBtn
-              node={node}
-              index={index}
-              nodes={nodes}
-              state={state}
-            />
-          )
-        )
-        .buttonContent((node: any) =>
-          ReactDOMServer.renderToStaticMarkup(
-            <CustomExpandButton {...node.node} />
-          )
-        )
-        .nodeContent((d: any) =>
-          ReactDOMServer.renderToStaticMarkup(<CustomNodeContent {...d} />)
-        )
-        .layout("bottom")
-        .linkUpdate(function (
-          node: d3.HierarchyNode<any>,
-          index: number,
-          nodes: d3.HierarchyNode<any>[]
-        ) {
-          d3.select(this)
-            .attr("stroke", (d: any) =>
-              d?.data?.line_color ? d?.data?.line_color : "#9da49a"
-            )
-            .attr("stroke-width", "2")
-            .attr("marker-end", "url(#arrowhead)")
-            .attr("fill", "none")
-            .each(function (d: any) {
-              if (d?.data?.line_color) {
-                d3.select(this).raise();
-              }
-            });
-        })
-
-        .childrenMargin(() => 150)
-        .siblingsMargin(() => 100)
-        .compactMarginBetween(() => 100)
-        .neighbourMargin(() => 150)
-        .render();
-
-      updateChartDimensions();
-
-      setTimeout(() => {
-        chart.fit();
-      }, 100);
-    } catch (error) {
-      console.error("Error initializing chart:", error);
-    }
-
-    return () => {
-      if (d3Container.current) {
-        d3Container.current.innerHTML = "";
+        if (fitOnRender) {
+          setTimeout(() => chartRef.current?.fit(), 100);
+        }
       }
     };
-  }, [data, isFullView]);
 
-  return <div className={cn("size-full", className)} ref={d3Container} />;
-};
+    // Expose chart methods via ref
+    useImperativeHandle(
+      ref,
+      () => ({
+        getChart: () => chartRef.current,
+        fit: () => chartRef.current?.fit(),
+        center: () => chartRef.current?.center(),
+        expandAll: () => chartRef.current?.expandAll(),
+        collapseAll: () => chartRef.current?.collapseAll(),
+        expandNode: (nodeId: string | number) => {
+          const chart = chartRef.current;
+          if (chart) {
+            const node = chart.data().find((d: any) => d.id === nodeId);
+            if (node) {
+              chart.setExpanded(node.id, true).render();
+            }
+          }
+        },
+        collapseNode: (nodeId: string | number) => {
+          const chart = chartRef.current;
+          if (chart) {
+            const node = chart.data().find((d: any) => d.id === nodeId);
+            if (node) {
+              chart.setExpanded(node.id, false).render();
+            }
+          }
+        },
+        getDimensions: () => {
+          const chart = chartRef.current;
+          return {
+            width: chart?.svgWidth() || 0,
+            height: chart?.svgHeight() || 0,
+          };
+        },
+        updateData: (newData: OrgChartNodeData[]) => {
+          if (chartRef.current) {
+            const preparedData = prepareChartData(newData);
+            chartRef.current.data(preparedData).render();
+            onChartUpdate?.(chartRef.current);
+          }
+        },
+        exportSVG: () => {
+          const chart = chartRef.current;
+          if (chart) {
+            const svg = chart.svg();
+            return new XMLSerializer().serializeToString(svg.node());
+          }
+          return "";
+        },
+        exportPNG: async (options = {}) => {
+          const { scale = 1, quality = 0.9 } = options;
+          const chart = chartRef.current;
+
+          if (!chart) return "";
+
+          const svg = chart.svg();
+          const svgData = new XMLSerializer().serializeToString(svg.node());
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const img = new Image();
+
+          return new Promise((resolve, reject) => {
+            img.onload = () => {
+              canvas.width = img.width * scale;
+              canvas.height = img.height * scale;
+              ctx?.scale(scale, scale);
+              ctx?.drawImage(img, 0, 0);
+              resolve(canvas.toDataURL("image/png", quality));
+            };
+            img.onerror = reject;
+            img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+          });
+        },
+      }),
+      []
+    );
+
+    // Initialize and configure chart
+    useLayoutEffect(() => {
+      if (!containerRef.current || !data?.length) return;
+
+      // Clear previous chart
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
+      }
+
+      try {
+        const preparedData = prepareChartData(data);
+        const chart = new OrgChart();
+        chartRef.current = chart;
+
+        // Configure chart
+        chart
+          .container(containerRef.current)
+          .data(preparedData)
+          .nodeWidth(nodeWidth)
+          .nodeHeight(nodeHeight)
+          .layout(layout)
+          .compact(compact)
+          .childrenMargin(childrenMargin)
+          .siblingsMargin(siblingsMargin)
+          .neighbourMargin(neighbourMargin)
+          .duration(animationDuration);
+
+        // Configure pagination if enabled
+        if (enablePagination) {
+          chart
+            .pagingStep(pagingStep)
+            .minPagingVisibleNodes(minPagingVisibleNodes)
+            .pagingButton(
+              (node: any, index: number, nodes: any[], state: any) => {
+                const parentData = node.parent?.data;
+                const step = node.parent ? state.pagingStep(node.parent) : 0;
+                const currentIndex = parentData?._pagingStep ?? 0;
+                const diff =
+                  (parentData?._directSubordinatesPaging ?? 0) - currentIndex;
+                const remainingNodes = Math.min(diff, step);
+
+                return ReactDOMServer.renderToStaticMarkup(
+                  renderPaginationButton({
+                    node,
+                    currentPage: Math.floor(currentIndex / step) + 1,
+                    totalPages: Math.ceil(
+                      (parentData?._directSubordinatesPaging ?? 0) / step
+                    ),
+                    pageSize: step,
+                    remainingNodes,
+                  })
+                );
+              }
+            );
+        }
+
+        // Configure compact layout
+        if (compact) {
+          chart.compactMarginBetween(compactMarginBetween);
+        }
+
+        // Configure node content
+        chart.nodeContent((d: any) =>
+          ReactDOMServer.renderToStaticMarkup(
+            renderNode({ node: d, data: d.data })
+          )
+        );
+
+        // Configure expand button
+        chart.buttonContent((node: any) => {
+          const isExpanded = node.children && node.children.length > 0;
+          const childrenCount = node.data._directSubordinates || 0;
+
+          return ReactDOMServer.renderToStaticMarkup(
+            renderExpandButton({
+              node,
+              isExpanded,
+              childrenCount,
+            })
+          );
+        });
+
+        // Configure link styling
+        chart.linkUpdate(function (this: any, d: any) {
+          const style =
+            typeof linkStyle === "function" ? linkStyle(d) : linkStyle;
+
+          d3.select(this)
+            .attr("stroke", style.stroke || "#94a3b8")
+            .attr("stroke-width", style.strokeWidth || 2)
+            .attr("stroke-dasharray", style.strokeDasharray || "none")
+            .attr("opacity", style.opacity || 1)
+            .attr("fill", "none");
+        });
+
+        // Configure interactions
+        if (onNodeClick) {
+          chart.onNodeClick(onNodeClick);
+        }
+        if (onNodeDoubleClick) {
+          chart.onNodeDoubleClick(onNodeDoubleClick);
+        }
+        if (onNodeMouseEnter) {
+          chart.onNodeMouseEnter(onNodeMouseEnter);
+        }
+        if (onNodeMouseLeave) {
+          chart.onNodeMouseLeave(onNodeMouseLeave);
+        }
+
+        // Configure zoom and drag
+        if (!enableZoom) {
+          chart.zoomBehavior(null);
+        }
+        if (!enableDrag) {
+          chart.dragBehavior(null);
+        }
+
+        // Render chart
+        chart.render();
+
+        // Update dimensions and fit
+        updateChartDimensions();
+
+        // Trigger render callback
+        onChartRender?.(chart);
+      } catch (error) {
+        console.error("Error initializing organizational chart:", error);
+      }
+
+      // Cleanup
+      return () => {
+        if (containerRef.current) {
+          containerRef.current.innerHTML = "";
+        }
+        chartRef.current = null;
+      };
+    }, [
+      data,
+      layout,
+      nodeWidth,
+      nodeHeight,
+      compact,
+      childrenMargin,
+      siblingsMargin,
+      neighbourMargin,
+      compactMarginBetween,
+      enablePagination,
+      pagingStep,
+      minPagingVisibleNodes,
+      expandAll,
+      enableZoom,
+      enableDrag,
+      animationDuration,
+    ]);
+
+    // Handle container resize
+    useLayoutEffect(() => {
+      if (!containerRef.current) return;
+
+      const resizeObserver = new ResizeObserver(() => {
+        updateChartDimensions();
+      });
+
+      resizeObserver.observe(containerRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }, []);
+
+    return (
+      <div
+        ref={containerRef}
+        className={cn("h-full w-full overflow-hidden", className)}
+        style={style}
+        role="img"
+        aria-label={ariaLabel}
+        aria-description={ariaDescription}
+      />
+    );
+  }
+);
+
+OrganizationalChart.displayName = "OrganizationalChart";
 
 export default OrganizationalChart;
